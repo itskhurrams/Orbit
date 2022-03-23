@@ -20,6 +20,16 @@ const getUsers = (request, response, next) => {
 };
 const signUp = (request, response, next) => {
   const { displayName, email, passcode } = request.body;
+
+  const hasUser = DUMMY_USER.find((user) => user.email === email);
+  if (hasUser)
+    return next(
+      new HttpError(
+        'Could not create user, email already exist.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+
   const createdUser = {
     id: uuid.v4(),
     displayName,
@@ -35,7 +45,7 @@ const logIn = (request, response, next) => {
   const { email, passcode } = request.body;
   const IdentifiedUser = DUMMY_USER.find((user) => user.email === email);
   if (!IdentifiedUser || IdentifiedUser.passcode !== passcode) {
-    next(
+    return next(
       new HttpError(
         'Could not identify user, credentials seems wrong.',
         CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
