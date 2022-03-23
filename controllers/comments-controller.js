@@ -116,6 +116,14 @@ const updateCommentById = (request, response, next) => {
 };
 const deleteCommentById = (request, response, next) => {
   const commentId = request.params.commentId;
+  if (!DUMMY_USER_COMMENTS.find((comment) => comment.id === commentId)) {
+    return next(
+      new HttpError(
+        'Could not found comment with that Id.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
+  }
   DUMMY_USER_COMMENTS = DUMMY_USER_COMMENTS.filter(
     (comment) => comment.id !== commentId
   );
