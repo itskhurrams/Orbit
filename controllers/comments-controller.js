@@ -53,7 +53,6 @@ const getCommentsByUserId = (request, response, next) => {
   }
   response.json({ comment });
 };
-
 const postComment = (request, response, next) => {
   const {
     title,
@@ -80,7 +79,25 @@ const postComment = (request, response, next) => {
     .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
     .json({ comment: postedComment });
 };
+const updateCommentById = (request, response, next) => {
+  const { comment } = request.body;
+  const commentId = request.params.commentId;
+  const updatedcomment = {
+    ...DUMMY_USER_COMMENTS.find((comment) => comment.id === commentId),
+  };
+  const updatedIndex = DUMMY_USER_COMMENTS.findIndex(
+    (comment) => comment.id === commentId
+  );
+  updatedcomment.comment = comment;
+  DUMMY_USER_COMMENTS[updatedIndex] = updatedcomment;
+  response
+    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK)
+    .json({ comment: updatedcomment });
+};
+const deleteCommentById = (request, response, next) => {};
 
 exports.getCommentbyId = getCommentbyId;
 exports.getCommentsByUserId = getCommentsByUserId;
 exports.postComment = postComment;
+exports.updateCommentById = updateCommentById;
+exports.deleteCommentById = deleteCommentById;
