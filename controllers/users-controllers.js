@@ -1,6 +1,8 @@
 const CONSTANTS = require('../models/constants');
 const HttpError = require('../models/http-error');
 const uuid = require('uuid');
+const { validationResult } = require('express-validator');
+
 let DUMMY_USER = [
   {
     id: '1',
@@ -19,6 +21,14 @@ const getUsers = (request, response, next) => {
   response.json({ users: DUMMY_USER });
 };
 const signUp = (request, response, next) => {
+  const validationErrors = validationResult(request);
+  if (!validationErrors.isEmpty())
+    return next(
+      new HttpError(
+        'Invalid Email address or data passed, please check.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
   const { displayName, email, passcode } = request.body;
 
   const hasUser = DUMMY_USER.find((user) => user.email === email);

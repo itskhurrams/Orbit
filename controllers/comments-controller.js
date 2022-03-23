@@ -1,6 +1,7 @@
 const CONSTANTS = require('../models/constants');
 const HttpError = require('../models/http-error');
 const uuid = require('uuid');
+const { validationResult } = require('express-validator');
 
 let DUMMY_USER_COMMENTS = [
   {
@@ -54,6 +55,15 @@ const getCommentsByUserId = (request, response, next) => {
   response.json({ comment });
 };
 const postComment = (request, response, next) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError(
+        'Invalid input passed, please check your data.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
   const {
     title,
     description,
@@ -80,8 +90,18 @@ const postComment = (request, response, next) => {
     .json({ comment: postedComment });
 };
 const updateCommentById = (request, response, next) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError(
+        'Invalid input passed, please check your data.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
   const { comment } = request.body;
   const commentId = request.params.commentId;
+
   const updatedcomment = {
     ...DUMMY_USER_COMMENTS.find((comment) => comment.id === commentId),
   };
