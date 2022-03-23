@@ -1,5 +1,6 @@
 const CONSTANTS = require('../models/constants');
 const HttpError = require('../models/http-error');
+const uuid = require('uuid');
 
 const DUMMY_USER_COMMENTS = [
   {
@@ -53,5 +54,33 @@ const getCommentsByUserId = (request, response, next) => {
   response.json({ comment });
 };
 
+const postComment = (request, response, next) => {
+  const {
+    title,
+    description,
+    userId,
+    displayName,
+    companyId,
+    comment,
+    createdBy,
+  } = request.body;
+
+  const postedComment = {
+    id: uuid.v4(),
+    title,
+    description,
+    userId,
+    displayName,
+    companyId,
+    comment,
+    createdBy,
+  };
+  DUMMY_USER_COMMENTS.push(postedComment);
+  response
+    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
+    .json({ comment: postedComment });
+};
+
 exports.getCommentbyId = getCommentbyId;
 exports.getCommentsByUserId = getCommentsByUserId;
+exports.postComment = postComment;

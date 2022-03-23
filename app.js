@@ -1,10 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const commentsRoutes = require('./routes/comments-routes');
+const HttpError = require('./models/http-error');
+const CONSTANTS = require('./models/constants');
 const app = express();
+app.use(bodyParser.json());
 
 app.use('/api/comments', commentsRoutes);
-
+app.use((request, response, next) => {
+  return next(
+    new HttpError(
+      'Could not find this route.',
+      CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+    )
+  );
+});
 app.use((error, request, response, next) => {
   if (response.headerSent) {
     return next(error);
