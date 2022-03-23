@@ -1,6 +1,6 @@
-const res = require('express/lib/response');
-
 const router = require('express').Router();
+const CONSTANTS = require('../models/constants');
+const HttpError = require('../models/http-error');
 
 const DUMMY_USER_COMMENTS = [
   {
@@ -28,9 +28,12 @@ router.get('/:commentId', (request, response, next) => {
     return comment.id === commentId;
   });
   if (!comment) {
-    const error = new Error('Could not find comment against this Id');
-    error.code = 404;
-    return next(error);
+    return next(
+      new HttpError(
+        'Could not find comment against this Id',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
   }
 
   response.json({ comment });
@@ -41,9 +44,12 @@ router.get('/user/:userId', (request, response, next) => {
     return comment.userId === userId;
   });
   if (!comment || comment.length == 0) {
-    const error = new Error('No comments found against this User Id');
-    error.code = 404;
-    return next(error);
+    return next(
+      new HttpError(
+        'No comments found against this User Id',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
   }
   response.json({ comment });
 });
