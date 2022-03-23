@@ -94,7 +94,15 @@ const updateCommentById = (request, response, next) => {
     .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK)
     .json({ comment: updatedcomment });
 };
-const deleteCommentById = (request, response, next) => {};
+const deleteCommentById = (request, response, next) => {
+  const commentId = request.params.commentId;
+  DUMMY_USER_COMMENTS = DUMMY_USER_COMMENTS.filter(
+    (comment) => comment.id !== commentId
+  );
+  response
+    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK)
+    .json({ message: 'Comment has been delete successfully.' });
+};
 
 exports.getCommentbyId = getCommentbyId;
 exports.getCommentsByUserId = getCommentsByUserId;
