@@ -2,7 +2,7 @@ const CONSTANTS = require('../models/constants');
 const HttpError = require('../models/http-error');
 const uuid = require('uuid');
 
-const DUMMY_USER_COMMENTS = [
+let DUMMY_USER_COMMENTS = [
   {
     id: '1',
     userId: '0x66155E24bA0EB4aAa5f209F842260AD718f032fD',
