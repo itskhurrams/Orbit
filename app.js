@@ -5,7 +5,7 @@ const commentsRoutes = require('./routes/comments-routes');
 const userRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error');
 const CONSTANTS = require('./config/constants');
-var config = require('./config/env-config');
+const enviroment = require('./config/environment');
 const app = express();
 app.use(bodyParser.json());
 
@@ -27,10 +27,12 @@ app.use((error, request, response, next) => {
   response.json(error.message || 'Unknow error occurred !');
 });
 mongoose
-  .connect(config.dataBaseUri)
+  .connect(enviroment.DATABASE_URI)
   .then(() => {
-    app.listen(config.port, () => {
-      console.log('Server listening at ' + config.endpoint + ':' + config.port);
+    app.listen(enviroment.PORT, () => {
+      console.log(
+        'Server listening at ' + enviroment.API_ENDPOINT + ':' + enviroment.PORT
+      );
     });
   })
   .catch((error) => {
