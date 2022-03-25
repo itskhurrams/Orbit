@@ -3,6 +3,8 @@ const HttpError = require('../models/http-error');
 const uuid = require('uuid');
 const { validationResult } = require('express-validator');
 
+const User = require('../models/user');
+
 let DUMMY_USER = [
   {
     id: '1',
@@ -20,7 +22,7 @@ let DUMMY_USER = [
 const getUsers = (request, response, next) => {
   response.json({ users: DUMMY_USER });
 };
-const signUp = (request, response, next) => {
+const signUp = async (request, response, next) => {
   const validationErrors = validationResult(request);
   if (!validationErrors.isEmpty())
     return next(
@@ -31,12 +33,24 @@ const signUp = (request, response, next) => {
     );
   const { displayName, email, passcode } = request.body;
 
-  const hasUser = DUMMY_USER.find((user) => user.email === email);
-  if (hasUser)
+  // const hasUser = DUMMY_USER.find((user) => user.email === email);
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Signing up failed, Please try again later.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+
+  if (existingUser)
     return next(
       new HttpError(
         'Could not create user, email already exist.',
-        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_500_INTERNAL_SERVER_ERROR
       )
     );
 
