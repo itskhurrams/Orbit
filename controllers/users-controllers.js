@@ -23,17 +23,16 @@ const getUsers = (request, response, next) => {
   response.json({ users: DUMMY_USER });
 };
 const signUp = async (request, response, next) => {
-  const validationErrors = validationResult(request);
-  if (!validationErrors.isEmpty())
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
     return next(
       new HttpError(
         'Invalid Email address or data passed, please check.',
         CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
       )
     );
+  }
   const { displayName, email, passcode } = request.body;
-
-  // const hasUser = DUMMY_USER.find((user) => user.email === email);
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -46,24 +45,34 @@ const signUp = async (request, response, next) => {
     );
   }
 
-  if (existingUser)
+  if (existingUser) {
     return next(
       new HttpError(
-        'Could not create user, email already exist.',
+        'User exist already, Please login instead.',
         CONSTANTS.HTTP_STATUS_CODES.HTTP_500_INTERNAL_SERVER_ERROR
       )
     );
+  }
 
-  const createdUser = {
-    id: uuid.v4(),
+  const createdUser = new User({
     displayName,
     email,
     passcode,
-  };
-  DUMMY_USER.push(createdUser);
+  });
+
+  try {
+    await createdUser.save();
+  } catch (error) {
+    return next(
+      new HttpError(
+        'User creation failed, please try again later.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_500_INTERNAL_SERVER_ERROR
+      )
+    );
+  }
   response
-    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK)
-    .json({ user: createdUser });
+    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
+    .json({ user: createdUser.toObject({ getters: true }) });
 };
 const logIn = (request, response, next) => {
   const { email, passcode } = request.body;
