@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { check } = require('express-validator');
 
-const usersController = require('../controllers/users-controllers');
+const usersController = require('../controllers/UsersControllers');
 
 router.get('/', usersController.getUsers);
 router.post(
