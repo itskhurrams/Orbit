@@ -74,17 +74,38 @@ const signUp = async (request, response, next) => {
     .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
     .json({ user: createdUser.toObject({ getters: true }) });
 };
-const logIn = (request, response, next) => {
-  const { email, passcode } = request.body;
-  const IdentifiedUser = DUMMY_USER.find((user) => user.email === email);
-  if (!IdentifiedUser || IdentifiedUser.passcode !== passcode) {
+const logIn = async (request, response, next) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
     return next(
       new HttpError(
-        'Could not identify user, credentials seems wrong.',
+        'Invalid Email address or data passed, please check.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+  const { email, passcode } = request.body;
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Logging In failed, Please try again later.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+
+  if (!existingUser || existingUser.passcode !== passcode) {
+    return next(
+      new HttpError(
+        'Invalid credentials, could not log you In.',
         CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
       )
     );
   }
+
   response.json({ message: 'Logged IN' });
 };
 
