@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const enviroment = require('./environment');
+const enviroment = require('./Environment');
 class DatabaseConfig {
   Connected = async () => {
     try {

@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const commentsRoutes = require('./routes/comments-routes');
-const userRoutes = require('./routes/UsersRoutes');
+const userRoutes = require('./routes/UserRoutes');
 const HttpError = require('./models/HTTPError');
-const CONSTANTS = require('./config/constants');
-const enviroment = require('./config/environment');
-const databaseConfig = require('./config/databaseConfig');
+const CONSTANTS = require('./config/Constants');
+const enviroment = require('./config/Environment');
+const databaseConfig = require('./config/DatabaseConfig');
 
 const app = express();
 app.use(bodyParser.json());
