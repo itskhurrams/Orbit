@@ -1,5 +1,5 @@
-const HttpError = require('../models/HTTPError');
-const CONSTANTS = require('../config/Constants');
+const HttpError = require('../models/http-error');
+const CONSTANTS = require('../config/constants');
 
 module.exports = {
   RoutErrorHandler: (request, response, next) => {

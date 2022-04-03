@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const enviroment = require('./Environment');
+const enviroment = require('./environment');
 module.exports = {
   Connected: async () => {
     try {

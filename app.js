@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const commentsRoutes = require('./routes/comments-routes');
-const userRoutes = require('./routes/UserRoutes');
-const enviroment = require('./config/Environment');
-const databaseConfig = require('./config/DatabaseConfig');
-const middlewares = require('./middlewares/ErrorHandlers');
+const userRoutes = require('./routes/user-routes');
+const enviroment = require('./config/environment');
+const databaseConfig = require('./config/database-config');
+const middlewares = require('./middlewares/error-handlers');
 
 const app = express();
 app.use(bodyParser.json());

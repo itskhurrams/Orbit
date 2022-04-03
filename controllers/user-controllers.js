@@ -1,5 +1,5 @@
 const CONSTANTS = require('../config/constants');
-const HttpError = require('../models/HTTPError');
+const HttpError = require('../models/http-error');
 const uuid = require('uuid');
 const { validationResult } = require('express-validator');
 
