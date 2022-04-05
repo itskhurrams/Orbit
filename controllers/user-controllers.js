@@ -10,14 +10,15 @@ const getUsers = async (request, response, next) => {
 const signUp = async (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty()) {
-    // console.log(result.errors);
-    return next(
-      new HttpError(
-        'Invalid Email address or data passed, please check.',
-        //json(result.array()),
-        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
-      )
-    );
+    // return next(
+    //   new HttpError(
+    //     'Invalid Email address or data passed, please check.',
+    //     CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+    //   )
+    // );
+    return response
+      .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
+      .json({ Errors: result.array() });
   }
   const { displayName, email, passcode } = request.body;
   let existingUser;
