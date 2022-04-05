@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const enviroment = require('./config/environment');
 const databaseConfig = require('./config/database-config');
 const middlewares = require('./middlewares/error-handlers');

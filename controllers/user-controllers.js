@@ -1,24 +1,8 @@
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
-const uuid = require('uuid');
 const { validationResult } = require('express-validator');
-
 const User = require('../models/user');
 
-let DUMMY_USER = [
-  {
-    id: '1',
-    displayName: 'Khurram',
-    email: 'itskhurrams@gmail.com',
-    passcode: '123456',
-  },
-  {
-    id: '2',
-    displayName: 'shahzad',
-    email: 'itskhurrams@outlook.com',
-    passcode: '123456',
-  },
-];
 const getUsers = async (request, response, next) => {
   response.json({ users: await User.find() });
 };
