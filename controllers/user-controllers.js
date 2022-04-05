@@ -2,16 +2,19 @@ const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const User = require('../models/user');
+const { json } = require('express/lib/response');
 
 const getUsers = async (request, response, next) => {
   response.json({ users: await User.find() });
 };
 const signUp = async (request, response, next) => {
-  const errors = validationResult(request);
-  if (!errors.isEmpty()) {
+  const result = validationResult(request);
+  if (!result.isEmpty()) {
+    // console.log(result.errors);
     return next(
       new HttpError(
         'Invalid Email address or data passed, please check.',
+        //json(result.array()),
         CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
       )
     );

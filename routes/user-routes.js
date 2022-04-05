@@ -7,16 +7,22 @@ router.get('/', usersController.getUsers);
 router.post(
   '/signup',
   [
-    check('email').not().isEmpty().normalizeEmail().isEmail(),
-    check('passcode').notEmpty().isLength(6),
+    check('email', 'Email is required.').not().isEmpty(),
+    check('email', 'Please enter a valid email.').normalizeEmail().isEmail(),
+    check('passcode', 'Please enter a password with 6 or more characters.')
+      .notEmpty()
+      .isLength(6),
   ],
   usersController.signUp
 );
 router.post(
   '/login',
   [
-    check('email').not().isEmpty().normalizeEmail().isEmail(),
-    check('passcode').notEmpty().isLength(6),
+    check('email', 'Email is required.').not().isEmpty(),
+    check('email', 'Please enter a valid email.').normalizeEmail().isEmail(),
+    check('passcode', 'Please enter a password with 6 or more characters.')
+      .notEmpty()
+      .isLength(6),
   ],
   usersController.logIn
 );
