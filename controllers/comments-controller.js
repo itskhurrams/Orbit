@@ -1,6 +1,5 @@
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
-const uuid = require('uuid');
 const { validationResult } = require('express-validator');
 
 let DUMMY_USER_COMMENTS = [
@@ -75,7 +74,7 @@ const postComment = (request, response, next) => {
   } = request.body;
 
   const postedComment = {
-    id: uuid.v4(),
+    id: 999,
     title,
     description,
     userId,
