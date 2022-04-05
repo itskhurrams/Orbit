@@ -19,8 +19,8 @@ let DUMMY_USER = [
     passcode: '123456',
   },
 ];
-const getUsers = (request, response, next) => {
-  response.json({ users: DUMMY_USER });
+const getUsers = async (request, response, next) => {
+  response.json({ users: await User.find() });
 };
 const signUp = async (request, response, next) => {
   const errors = validationResult(request);
