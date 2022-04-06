@@ -23,7 +23,7 @@ const signUp = async (request, response, next) => {
   const { displayName, email, passcode } = request.body;
   let existingUser;
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({ email });
   } catch (error) {
     return next(
       new HttpError(
@@ -63,19 +63,22 @@ const signUp = async (request, response, next) => {
     .json({ user: createdUser.toObject({ getters: true }) });
 };
 const logIn = async (request, response, next) => {
-  const errors = validationResult(request);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError(
-        'Invalid Email address or data passed, please check.',
-        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
-      )
-    );
+  const result = validationResult(request);
+  if (!result.isEmpty()) {
+    // return next(
+    //   new HttpError(
+    //     'Invalid Email address or data passed, please check.',
+    //     CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+    //   )
+    // );
+    return response
+      .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
+      .json({ errors: result.array() });
   }
   const { email, passcode } = request.body;
   let existingUser;
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({ email });
   } catch (error) {
     return next(
       new HttpError(
