@@ -1,3 +1,4 @@
+const gravatar = require('gravatar');
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
@@ -42,10 +43,18 @@ const signUp = async (request, response, next) => {
     );
   }
 
+  //get User avatar
+  const avatar = gravatar.url(email, {
+    s: '200',
+    r: 'pg',
+    d: 'mm',
+  });
+
   const createdUser = new User({
     displayName,
     email,
     passcode,
+    avatar,
   });
 
   try {

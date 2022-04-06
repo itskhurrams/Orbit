@@ -4,7 +4,9 @@ const databaseConfig = require('./config/database-config');
 const middlewares = require('./middlewares/error-handlers');
 
 const app = express();
-app.use(express.json({ extended: false }));
+app.use(
+  express.json({ extended: false, useNewUrlParser: true, useCreateIndex: true })
+);
 
 app.use('/api/comments', require('./routes/comments-routes'));
 app.use('/api/users', require('./routes/user-routes'));
