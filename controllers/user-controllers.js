@@ -1,4 +1,5 @@
 const gravatar = require('gravatar');
+const bcrypt = require('bcryptjs');
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
@@ -49,11 +50,12 @@ const signUp = async (request, response, next) => {
     r: 'pg',
     d: 'mm',
   });
-
+  //encript password
+  const salt = await bcrypt.genSalt();
   const createdUser = new User({
     displayName,
     email,
-    passcode,
+    passcode: await bcrypt.hash(passcode, salt),
     avatar,
   });
 
