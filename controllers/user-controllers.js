@@ -1,10 +1,12 @@
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const { json } = require('express/lib/response');
+const environment = require('../config/environment');
 
 const getUsers = async (request, response, next) => {
   response.json({ users: await User.find() });
@@ -61,6 +63,31 @@ const signUp = async (request, response, next) => {
 
   try {
     await createdUser.save();
+
+    const payLoad = {
+      user: {
+        Id: createdUser.Id,
+      },
+    };
+    jwt.sign(
+      payLoad,
+      environment.JWT_SECRET,
+      { expiresIn: 3600 },
+      (error, token) => {
+        if (error) {
+          return next(
+            new HttpError(
+              'Error while generating Jwt Token, please try again',
+              CONSTANTS.HTTP_STATUS_CODES.HTTP_503_SERVICE_UNAVAILABLE
+            )
+          );
+        }
+        response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+          user: createdUser.toObject({ getters: true }),
+          token: token,
+        });
+      }
+    );
   } catch (error) {
     return next(
       new HttpError(
@@ -69,9 +96,9 @@ const signUp = async (request, response, next) => {
       )
     );
   }
-  response
-    .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
-    .json({ user: createdUser.toObject({ getters: true }) });
+  // response
+  //   .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
+  //   .json({ user: createdUser.toObject({ getters: true }), token: userToken });
 };
 const logIn = async (request, response, next) => {
   const result = validationResult(request);
