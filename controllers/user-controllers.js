@@ -66,7 +66,7 @@ const signUp = async (request, response, next) => {
 
     const payLoad = {
       user: {
-        Id: createdUser.Id,
+        Id: createdUser.id,
       },
     };
     jwt.sign(
