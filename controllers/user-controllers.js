@@ -72,7 +72,7 @@ const signUp = async (request, response, next) => {
     jwt.sign(
       payLoad,
       environment.JWT_SECRET,
-      { expiresIn: 3600 },
+      { expiresIn: 36000 },
       (error, token) => {
         if (error) {
           return next(

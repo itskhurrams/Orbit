@@ -17,9 +17,20 @@ module.exports = (request, response, next) => {
 
   //verify token
   try {
-    jwt.verify(token, environment.JWT_SECRET, (err, result) => {
-      next();
-    });
+    const decoded = jwt.verify(token.toString(), environment.JWT_SECRET);
+    request.user = decoded.user;
+    next();
+    // jwt.verify(token.toString(), environment.JWT_SECRET, (error, result) => {
+    //   if (error) {
+    //     console.log(error);
+    //     return next(
+    //       new HttpError(
+    //         'Token Verification Error',
+    //         CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
+    //       )
+    //     );
+    //   } else next();
+    // });
   } catch (error) {
     return next(
       new HttpError(
