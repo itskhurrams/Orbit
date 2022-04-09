@@ -23,7 +23,7 @@ const signUp = async (request, response, next) => {
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
-  const { displayName, email, passcode } = request.body;
+  const { firstName, lastName, title, email, passcode } = request.body;
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -54,7 +54,9 @@ const signUp = async (request, response, next) => {
   //encript password
   const salt = await bcrypt.genSalt();
   const createdUser = new User({
-    displayName,
+    firstName,
+    lastName,
+    title,
     email,
     passcode: await bcrypt.hash(passcode, salt),
     avatar,
