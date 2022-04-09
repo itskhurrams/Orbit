@@ -5,7 +5,6 @@ const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const User = require('../models/user');
-const { json } = require('express/lib/response');
 const environment = require('../config/environment');
 
 const getUsers = async (request, response, next) => {
@@ -63,7 +62,6 @@ const signUp = async (request, response, next) => {
 
   try {
     await createdUser.save();
-
     const payLoad = {
       user: {
         Id: createdUser.id,
@@ -72,7 +70,7 @@ const signUp = async (request, response, next) => {
     jwt.sign(
       payLoad,
       environment.JWT_SECRET,
-      { expiresIn: 36000 },
+      { expiresIn: 3600 },
       (error, token) => {
         if (error) {
           return next(
@@ -117,6 +115,45 @@ const logIn = async (request, response, next) => {
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
+    const isMatch = await bcrypt.compare(passcode, existingUser.passcode);
+    if (!existingUser || !isMatch) {
+      return next(
+        new HttpError(
+          'Invalid credentials, could not log you In.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
+        )
+      );
+    }
+    const payLoad = {
+      user: {
+        Id: existingUser.id,
+      },
+    };
+    jwt.sign(
+      payLoad,
+      environment.JWT_SECRET,
+      { expiresIn: 3600 },
+      (error, token) => {
+        if (error) {
+          return next(
+            new HttpError(
+              'Error while generating Jwt Token, please try again',
+              CONSTANTS.HTTP_STATUS_CODES.HTTP_503_SERVICE_UNAVAILABLE
+            )
+          );
+        }
+        response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+          user: {
+            id: existingUser.id,
+            displayName: existingUser.displayName,
+            email: existingUser.email,
+            avatar: existingUser.avatar,
+            createdDate: existingUser.createdDate,
+          },
+          token: token,
+        });
+      }
+    );
   } catch (error) {
     return next(
       new HttpError(
@@ -125,17 +162,6 @@ const logIn = async (request, response, next) => {
       )
     );
   }
-
-  if (!existingUser || existingUser.passcode !== passcode) {
-    return next(
-      new HttpError(
-        'Invalid credentials, could not log you In.',
-        CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
-      )
-    );
-  }
-
-  response.json({ message: 'Logged IN' });
 };
 
 exports.getUsers = getUsers;

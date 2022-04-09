@@ -20,9 +20,7 @@ router.post(
   [
     check('email', 'Email is required.').not().isEmpty(),
     check('email', 'Please enter a valid email.').normalizeEmail().isEmail(),
-    check('passcode', 'Please enter a password with 6 or more characters.')
-      .notEmpty()
-      .isLength(6),
+    check('passcode', 'Please enter a password it is required.').exists(),
   ],
   usersController.logIn
 );
