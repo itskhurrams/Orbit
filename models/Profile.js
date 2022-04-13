@@ -6,11 +6,12 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
+  avatar: { type: String },
+  bio: { type: String },
   company: { type: String },
   website: { type: String },
   status: { type: String, required: true },
   skills: { type: [String], required: true },
-  bio: { type: String },
   createdDate: { type: Date, default: Date.now },
   experience: [
     {

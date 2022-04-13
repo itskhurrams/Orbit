@@ -2,8 +2,9 @@ const router = require('express').Router();
 const { check } = require('express-validator');
 
 const usersController = require('../controllers/user-controllers');
+const authMiddleware = require('../middlewares/auth');
 
-router.get('/', usersController.getUsers);
+router.get('/', authMiddleware, usersController.getUsers);
 router.post(
   '/signup',
   [

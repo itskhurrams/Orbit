@@ -46,11 +46,11 @@ const signUp = async (request, response, next) => {
   }
 
   //get User avatar
-  const avatar = gravatar.url(email, {
-    s: '200',
-    r: 'pg',
-    d: 'mm',
-  });
+  // const avatar = gravatar.url(email, {
+  //   s: '200',
+  //   r: 'pg',
+  //   d: 'mm',
+  // });
   //encript password
   const salt = await bcrypt.genSalt();
   const createdUser = new User({
@@ -59,7 +59,6 @@ const signUp = async (request, response, next) => {
     title,
     email,
     passcode: await bcrypt.hash(passcode, salt),
-    avatar,
   });
 
   try {
@@ -147,9 +146,9 @@ const logIn = async (request, response, next) => {
         response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
           user: {
             id: existingUser.id,
-            displayName: existingUser.displayName,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
             email: existingUser.email,
-            avatar: existingUser.avatar,
             createdDate: existingUser.createdDate,
           },
           token: token,
