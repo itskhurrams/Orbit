@@ -10,8 +10,14 @@ const profileSchema = new mongoose.Schema({
   bio: { type: String },
   company: { type: String },
   website: { type: String },
-  status: { type: String, required: true },
   skills: { type: [String], required: true },
+  social: {
+    youtube: { type: String },
+    twitter: { type: String },
+    facebook: { type: String },
+    linkedin: { type: String },
+    instagram: { type: String },
+  },
   createdDate: { type: Date, default: Date.now },
   experience: [
     {
@@ -35,13 +41,6 @@ const profileSchema = new mongoose.Schema({
       description: { type: String },
     },
   ],
-  social: {
-    youtube: { type: String },
-    twitter: { type: String },
-    facebook: { type: String },
-    linkedin: { type: String },
-    instagram: { type: String },
-  },
 });
 profileSchema.plugin(mongooseUniqueValidator);
 module.exports = mongoose.model('Profile', profileSchema);

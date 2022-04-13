@@ -1,4 +1,3 @@
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../config/constants');
@@ -13,12 +12,6 @@ const getUsers = async (request, response, next) => {
 const signUp = async (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty()) {
-    // return next(
-    //   new HttpError(
-    //     'Invalid Email address or data passed, please check.',
-    //     CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
-    //   )
-    // );
     return response
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
@@ -45,12 +38,6 @@ const signUp = async (request, response, next) => {
     );
   }
 
-  //get User avatar
-  // const avatar = gravatar.url(email, {
-  //   s: '200',
-  //   r: 'pg',
-  //   d: 'mm',
-  // });
   //encript password
   const salt = await bcrypt.genSalt();
   const createdUser = new User({

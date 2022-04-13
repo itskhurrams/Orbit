@@ -7,7 +7,11 @@ const userSchema = new mongoose.Schema({
   title: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passcode: { type: String, required: true, minlength: 6 },
-
+  location: {
+    city: { type: String },
+    state: { type: String },
+    country: { type: String },
+  },
   createdDate: { type: Date, default: Date.now },
 });
 userSchema.plugin(mongooseUniqueValidator);
