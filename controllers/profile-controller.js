@@ -4,6 +4,34 @@ const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/http-error');
 const Profile = require('../models/Profile');
 
+const getProfiles = async (request, response, next) => {
+  try {
+    const profiles = await Profile.find().populate('user', [
+      'firstName',
+      'lastName',
+      'email',
+      'title',
+    ]);
+    if (!profiles) {
+      return next(
+        new HttpError(
+          'There is no profiles at the moment.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      users: profiles,
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'No Profile found.' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
+  }
+};
 const createMyProfile = async (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty()) {
@@ -11,6 +39,7 @@ const createMyProfile = async (request, response, next) => {
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
+
   const {
     avatar = gravatar.url(request.user.email, {
       s: '200',
@@ -31,7 +60,8 @@ const createMyProfile = async (request, response, next) => {
   } = request.body;
   const profileObject = {};
 
-  profileObject.user = request.user.id;
+  profileObject.user = request.user.Id;
+  profileObject.avatar = avatar;
   if (company) profileObject.company = company;
   if (bio) profileObject.bio = bio;
   if (website) profileObject.website = website;
@@ -49,7 +79,7 @@ const createMyProfile = async (request, response, next) => {
     if (userProfile) {
       userProfile = await Profile.findOneAndUpdate(
         {
-          user: request.user.id,
+          user: request.user.Id,
         },
         {
           $set: profileObject,
@@ -83,7 +113,7 @@ const getMyProfile = async (request, response, next) => {
   try {
     const profile = await Profile.findOne({ user: request.user.id }).populate(
       'user',
-      ['firstName', 'lastName', 'email', 'avatar']
+      ['firstName', 'lastName', 'email']
     );
     if (!profile) {
       return next(
@@ -106,4 +136,5 @@ const getMyProfile = async (request, response, next) => {
   }
 };
 exports.getMyProfile = getMyProfile;
+exports.getProfiles = getProfiles;
 exports.createMyProfile = createMyProfile;
