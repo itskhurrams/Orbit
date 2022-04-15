@@ -32,6 +32,31 @@ const getProfiles = async (request, response, next) => {
     );
   }
 };
+const getProfileByUser = async (request, response, next) => {
+  try {
+    const profile = await Profile.findOne({
+      ser: request.params.userId,
+    }).populate('user', ['firstName', 'lastName', 'email', 'title']);
+    if (!profile) {
+      return next(
+        new HttpError(
+          'There is no profiles at the moment.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      users: profile,
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'No Profile found.' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
+  }
+};
 const createMyProfile = async (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty()) {
@@ -138,3 +163,4 @@ const getMyProfile = async (request, response, next) => {
 exports.getMyProfile = getMyProfile;
 exports.getProfiles = getProfiles;
 exports.createMyProfile = createMyProfile;
+exports.getProfileByUser = getProfileByUser;

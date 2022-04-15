@@ -13,6 +13,8 @@ router.post(
   ],
   profileController.createMyProfile
 );
-router.get('/', profileController.getProfiles);
+router.get('/user/:userId', profileController.getProfileByUser);
 router.get('/me', authMiddleware, profileController.getMyProfile);
+router.get('/', profileController.getProfiles);
+
 module.exports = router;
