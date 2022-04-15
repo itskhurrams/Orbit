@@ -40,7 +40,7 @@ const getProfileByUser = async (request, response, next) => {
     if (!profile) {
       return next(
         new HttpError(
-          'There is no profiles at the moment.',
+          'Profile not found',
           CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
         )
       );
@@ -49,10 +49,18 @@ const getProfileByUser = async (request, response, next) => {
       users: profile,
     });
   } catch (error) {
+    if (error.kind == 'ObjectId') {
+      return next(
+        new HttpError(
+          'Profile not found',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
     return next(
       new HttpError(
-        'No Profile found.' + error.toString(),
-        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        'Server error' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_500_INTERNAL_SERVER_ERROR
       )
     );
   }
