@@ -35,12 +35,12 @@ const getProfiles = async (request, response, next) => {
 const getProfileByUser = async (request, response, next) => {
   try {
     const profile = await Profile.findOne({
-      ser: request.params.userId,
+      user: request.params.userId,
     }).populate('user', ['firstName', 'lastName', 'email', 'title']);
     if (!profile) {
       return next(
         new HttpError(
-          'Profile not found',
+          'Profile not found in TRY',
           CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
         )
       );
@@ -52,7 +52,7 @@ const getProfileByUser = async (request, response, next) => {
     if (error.kind == 'ObjectId') {
       return next(
         new HttpError(
-          'Profile not found',
+          'Profile not found in CATCH',
           CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
         )
       );
@@ -168,7 +168,26 @@ const getMyProfile = async (request, response, next) => {
     );
   }
 };
+
+const deleteProfileByUser = async (request, response, next) => {
+  try {
+    console.log(request.user);
+    await Profile.findOneAndDelete({ user: request.user.Id });
+    await User.findOneAndDelete({ _id: request.user.Id });
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      msg: 'Removed successfully.',
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Could not load your profile.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+};
 exports.getMyProfile = getMyProfile;
 exports.getProfiles = getProfiles;
 exports.createMyProfile = createMyProfile;
 exports.getProfileByUser = getProfileByUser;
+exports.deleteProfileByUser = deleteProfileByUser;

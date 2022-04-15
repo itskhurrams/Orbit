@@ -14,6 +14,7 @@ router.post(
   profileController.createMyProfile
 );
 router.get('/user/:userId', profileController.getProfileByUser);
+router.delete('/', authMiddleware, profileController.deleteProfileByUser);
 router.get('/me', authMiddleware, profileController.getMyProfile);
 router.get('/', profileController.getProfiles);
 
