@@ -11,5 +11,6 @@ router.post(
 );
 router.get('/', authMiddleware, postController.getPosts);
 router.get('/:postId', postController.getPostById);
+router.delete('/:postId', postController.deletePostById);
 
 module.exports = router;

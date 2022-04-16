@@ -91,6 +91,22 @@ const getPostById = async (request, response, next) => {
     );
   }
 };
+const deletePostById = async (request, response, next) => {
+  try {
+    await Post.findOneAndDelete({ _id: request.params.postId });
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      msg: 'Removed successfully.',
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Could not load your profile.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+};
 exports.createMyPost = createMyPost;
 exports.getPosts = getPosts;
 exports.getPostById = getPostById;
+exports.deletePostById = deletePostById;
