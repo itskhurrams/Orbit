@@ -1,7 +1,7 @@
 const gravatar = require('gravatar');
 const { validationResult } = require('express-validator');
 const CONSTANTS = require('../config/constants');
-const HttpError = require('../models/http-error');
+const HttpError = require('../models/HttpError');
 const Profile = require('../models/Profile');
 
 const getProfiles = async (request, response, next) => {

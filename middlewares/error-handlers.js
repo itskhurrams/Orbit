@@ -1,4 +1,4 @@
-const HttpError = require('../models/http-error');
+const HttpError = require('../models/HttpError');
 const CONSTANTS = require('../config/constants');
 
 module.exports = {
