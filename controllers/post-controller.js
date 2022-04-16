@@ -93,7 +93,16 @@ const getPostById = async (request, response, next) => {
 };
 const deletePostById = async (request, response, next) => {
   try {
-    await Post.findOneAndDelete({ _id: request.params.postId });
+    const post = Post.findById(request.params.postId);
+    if (post.user.toString() !== request.user.Id) {
+      return next(
+        new HttpError(
+          'Not authorize to delete the post.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
+        )
+      );
+    }
+    await Post.remove();
     response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       msg: 'Removed successfully.',
     });
