@@ -9,5 +9,6 @@ router.post(
   [authMiddleware, check('text', 'Text is required.').not().isEmpty()],
   postController.createMyPost
 );
+router.get('/', authMiddleware, postController.getPosts);
 
 module.exports = router;

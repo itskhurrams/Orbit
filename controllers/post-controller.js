@@ -37,4 +37,28 @@ const createMyPost = async (request, response, next) => {
     );
   }
 };
+const getPosts = async (request, response, next) => {
+  try {
+    const posts = await Post.find().sort({ createdDate: -1 });
+    if (!posts) {
+      return next(
+        new HttpError(
+          'There is no posts at the moment.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      posts: posts,
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'No Profile found.' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+      )
+    );
+  }
+};
 exports.createMyPost = createMyPost;
+exports.getPosts = getPosts;
