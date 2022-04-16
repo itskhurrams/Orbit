@@ -34,5 +34,5 @@ const postSchema = new mongoose.Schema({
     },
   ],
 });
-userSchema.plugin(mongooseUniqueValidator);
+postSchema.plugin(mongooseUniqueValidator);
 module.exports = mongoose.model('Post', postSchema);
