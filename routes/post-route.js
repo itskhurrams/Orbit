@@ -10,5 +10,6 @@ router.post(
   postController.createMyPost
 );
 router.get('/', authMiddleware, postController.getPosts);
+router.get('/:postId', postController.getPostById);
 
 module.exports = router;

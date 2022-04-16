@@ -60,5 +60,37 @@ const getPosts = async (request, response, next) => {
     );
   }
 };
+const getPostById = async (request, response, next) => {
+  try {
+    const post = await Post.findById(request.params.postId);
+    if (!post) {
+      return next(
+        new HttpError(
+          'Post not found.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
+    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      post: post,
+    });
+  } catch (error) {
+    if (error.kind == 'ObjectId') {
+      return next(
+        new HttpError(
+          'Post not found in CATCH',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_404_NOT_FOUND
+        )
+      );
+    }
+    return next(
+      new HttpError(
+        'Server error' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_500_INTERNAL_SERVER_ERROR
+      )
+    );
+  }
+};
 exports.createMyPost = createMyPost;
 exports.getPosts = getPosts;
+exports.getPostById = getPostById;
