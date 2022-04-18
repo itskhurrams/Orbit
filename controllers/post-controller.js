@@ -141,15 +141,14 @@ const likePost = async (req, res, next) => {
       post.likes.filter((like) => like.user.toString() === req.user.Id).length >
       0
     ) {
-      return next(
-        new HttpError(
-          'Post already liked by this user.',
-          CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
-        )
-      );
+      const removeIndex = post.likes
+        .map((like) => like.user.toString())
+        .indexOf(req.user.Id);
+      post.likes.splice(removeIndex, 1);
+    } else {
+      post.likes.unshift({ user: req.user.Id });
     }
 
-    post.likes.unshift({ user: req.user.Id });
     await post.save();
     res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       likes: post.likes,
