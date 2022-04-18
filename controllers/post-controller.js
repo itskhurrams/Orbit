@@ -151,6 +151,9 @@ const likePost = async (req, res, next) => {
 
     post.likes.unshift({ user: req.user.Id });
     await post.save();
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      likes: post.likes,
+    });
   } catch (error) {
     return next(
       new HttpError(
