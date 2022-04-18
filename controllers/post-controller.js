@@ -193,9 +193,54 @@ const commentPost = async (req, res, next) => {
   }
 };
 
+// @route   Delete api/posts/comment/: PostId/:commentId
+// @desc    Delete comment by postId and Comment Id
+// @access  Private
+
+const deletComment = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const comment = post.comments.find(
+      (comment) => comment._id.toString() == req.params.commentId
+    );
+    if (!comment) {
+      return next(
+        new HttpError(
+          'Not comment found.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
+        )
+      );
+    }
+    if (comment.user.toString() !== req.user.Id) {
+      return next(
+        new HttpError(
+          'Not authorize to delete the comment.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_401_UNAUTHORIZED
+        )
+      );
+    }
+
+    const removeIndex = post.comments
+      .map((comment) => comment.user.toString())
+      .indexOf(req.user.Id);
+    post.comments.splice(removeIndex, 1);
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      post: post,
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Could not load your profile.' + error.toString(),
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+};
+
 exports.createMyPost = createMyPost;
 exports.getPosts = getPosts;
 exports.getPostById = getPostById;
 exports.deletePostById = deletePostById;
 exports.likePost = likePost;
 exports.commentPost = commentPost;
+exports.deletComment = deletComment;
