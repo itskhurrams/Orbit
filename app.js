@@ -9,7 +9,6 @@ app.use(
 );
 
 app.use('/api/users', require('./routes/user-routes'));
-app.use('/api/auth', require('./routes/auth-routes'));
 app.use('/api/profile', require('./routes/profile-routes'));
 app.use('/api/post', require('./routes/post-route'));
 
