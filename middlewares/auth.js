@@ -3,9 +3,9 @@ const environment = require('../config/environment');
 const HttpError = require('../models/HttpError');
 const CONSTANTS = require('../config/constants');
 
-module.exports = (request, response, next) => {
+module.exports = (req, res, next) => {
   //get token
-  const token = request.header('x-auth-token');
+  const token = req.header('x-auth-token');
   if (!token) {
     return next(
       new HttpError(
@@ -18,7 +18,7 @@ module.exports = (request, response, next) => {
   //verify token
   try {
     const decoded = jwt.verify(token.toString(), environment.JWT_SECRET);
-    request.user = decoded.user;
+    req.user = decoded.user;
     next();
     // jwt.verify(token.toString(), environment.JWT_SECRET, (error, result) => {
     //   if (error) {

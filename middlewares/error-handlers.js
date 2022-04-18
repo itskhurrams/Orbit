@@ -2,7 +2,7 @@ const HttpError = require('../models/HttpError');
 const CONSTANTS = require('../config/constants');
 
 module.exports = {
-  RoutErrorHandler: (request, response, next) => {
+  RoutErrorHandler: (req, res, next) => {
     return next(
       new HttpError(
         'Could not find this route.',

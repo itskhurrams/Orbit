@@ -3,29 +3,31 @@ const { validationResult } = require('express-validator');
 const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/HttpError');
 const Profile = require('../models/Profile');
-const User = require('../models/user');
 const Post = require('../models/Post');
 
-const createMyPost = async (request, response, next) => {
-  const result = validationResult(request);
+// @route   POST api/posts
+// @desc    Create post
+// @access  Private
+const createMyPost = async (req, res, next) => {
+  const result = validationResult(req);
   if (!result.isEmpty()) {
-    return response
+    return res
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
   try {
     const userProfile = await Profile.findOne({
-      user: request.user.Id,
+      user: req.user.Id,
     }).populate('user', ['firstName', 'lastName']);
     const newPost = new Post({
-      text: request.body.text,
+      text: req.body.text,
       name: userProfile.user.firstName + ' ' + userProfile.user.lastName,
       avatar: userProfile.avatar,
-      user: request.user.Id,
+      user: req.user.Id,
     });
     //Create
     await newPost.save();
-    return response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+    return res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
       post: newPost.toObject({ getters: true }),
     });
   } catch (error) {
@@ -37,7 +39,11 @@ const createMyPost = async (request, response, next) => {
     );
   }
 };
-const getPosts = async (request, response, next) => {
+
+// @route   GET api/posts
+// @desc    Get posts
+// @access  Public
+const getPosts = async (req, res, next) => {
   try {
     const posts = await Post.find().sort({ createdDate: -1 });
     if (!posts) {
@@ -48,7 +54,7 @@ const getPosts = async (request, response, next) => {
         )
       );
     }
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       posts: posts,
     });
   } catch (error) {
@@ -60,9 +66,13 @@ const getPosts = async (request, response, next) => {
     );
   }
 };
-const getPostById = async (request, response, next) => {
+
+// @route   GET api/posts/:postId
+// @desc    Get post by id
+// @access  Public
+const getPostById = async (req, res, next) => {
   try {
-    const post = await Post.findById(request.params.postId);
+    const post = await Post.findById(req.params.postId);
     if (!post) {
       return next(
         new HttpError(
@@ -71,7 +81,7 @@ const getPostById = async (request, response, next) => {
         )
       );
     }
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       post: post,
     });
   } catch (error) {
@@ -91,10 +101,14 @@ const getPostById = async (request, response, next) => {
     );
   }
 };
-const deletePostById = async (request, response, next) => {
+
+// @route   DELETE api/posts/:id
+// @desc    Delete post
+// @access  Private
+const deletePostById = async (req, res, next) => {
   try {
-    const post = Post.findById(request.params.postId);
-    if (post.user.toString() !== request.user.Id) {
+    const post = Post.findById(req.params.postId);
+    if (post.user.toString() !== req.user.Id) {
       return next(
         new HttpError(
           'Not authorize to delete the post.',
@@ -103,7 +117,7 @@ const deletePostById = async (request, response, next) => {
       );
     }
     await Post.remove();
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       msg: 'Removed successfully.',
     });
   } catch (error) {
@@ -115,7 +129,40 @@ const deletePostById = async (request, response, next) => {
     );
   }
 };
+
+// @route   PUT api/posts/like/:id
+// @desc    Like post
+// @access  Private
+
+const likePost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id).length >
+      0
+    ) {
+      return next(
+        new HttpError(
+          'Post already liked by this user.',
+          CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+        )
+      );
+    }
+
+    post.likes.unshift({ user: req.user.Id });
+    await post.save();
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Could not post your status.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+};
+
 exports.createMyPost = createMyPost;
 exports.getPosts = getPosts;
 exports.getPostById = getPostById;
 exports.deletePostById = deletePostById;
+exports.likePost = likePost;

@@ -4,7 +4,10 @@ const CONSTANTS = require('../config/constants');
 const HttpError = require('../models/HttpError');
 const Profile = require('../models/Profile');
 
-const getProfiles = async (request, response, next) => {
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Public
+const getProfiles = async (req, res, next) => {
   try {
     const profiles = await Profile.find().populate('user', [
       'firstName',
@@ -20,7 +23,7 @@ const getProfiles = async (request, response, next) => {
         )
       );
     }
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       users: profiles,
     });
   } catch (error) {
@@ -32,10 +35,14 @@ const getProfiles = async (request, response, next) => {
     );
   }
 };
-const getProfileByUser = async (request, response, next) => {
+
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by user ID
+// @access  Public
+const getProfileByUser = async (req, res, next) => {
   try {
     const profile = await Profile.findOne({
-      user: request.params.userId,
+      user: req.params.userId,
     }).populate('user', ['firstName', 'lastName', 'email', 'title']);
     if (!profile) {
       return next(
@@ -45,7 +52,7 @@ const getProfileByUser = async (request, response, next) => {
         )
       );
     }
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       users: profile,
     });
   } catch (error) {
@@ -65,16 +72,20 @@ const getProfileByUser = async (request, response, next) => {
     );
   }
 };
-const createMyProfile = async (request, response, next) => {
-  const result = validationResult(request);
+
+// @route   POST api/profile
+// @desc    Create or edit user profile
+// @access  Private
+const createMyProfile = async (req, res, next) => {
+  const result = validationResult(req);
   if (!result.isEmpty()) {
-    return response
+    return res
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
 
   const {
-    avatar = gravatar.url(request.user.email, {
+    avatar = gravatar.url(req.user.email, {
       s: '200',
       r: 'pg',
       d: 'mm',
@@ -90,10 +101,10 @@ const createMyProfile = async (request, response, next) => {
     instagram,
     experience,
     education,
-  } = request.body;
+  } = req.body;
   const profileObject = {};
 
-  profileObject.user = request.user.Id;
+  profileObject.user = req.user.Id;
   profileObject.avatar = avatar;
   if (company) profileObject.company = company;
   if (bio) profileObject.bio = bio;
@@ -108,11 +119,11 @@ const createMyProfile = async (request, response, next) => {
   if (instagram) profileObject.social.instagram = instagram;
   try {
     //Update
-    let userProfile = await Profile.findOne({ user: request.user.id });
+    let userProfile = await Profile.findOne({ user: req.user.id });
     if (userProfile) {
       userProfile = await Profile.findOneAndUpdate(
         {
-          user: request.user.Id,
+          user: req.user.Id,
         },
         {
           $set: profileObject,
@@ -121,16 +132,14 @@ const createMyProfile = async (request, response, next) => {
           new: true,
         }
       );
-      return response
-        .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
-        .json({
-          profile: userProfile.toObject({ getters: true }),
-        });
+      return res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+        profile: userProfile.toObject({ getters: true }),
+      });
     }
     //Create
     userProfile = new Profile(profileObject);
     await userProfile.save();
-    return response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+    return res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
       profile: userProfile.toObject({ getters: true }),
     });
   } catch (error) {
@@ -142,9 +151,13 @@ const createMyProfile = async (request, response, next) => {
     );
   }
 };
-const getMyProfile = async (request, response, next) => {
+
+// @route   api/profile/me
+// @desc    Get my profile
+// @access  Private
+const getMyProfile = async (req, res, next) => {
   try {
-    const profile = await Profile.findOne({ user: request.user.id }).populate(
+    const profile = await Profile.findOne({ user: req.user.id }).populate(
       'user',
       ['firstName', 'lastName', 'email']
     );
@@ -156,7 +169,7 @@ const getMyProfile = async (request, response, next) => {
         )
       );
     }
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       user: profile,
     });
   } catch (error) {
@@ -169,12 +182,15 @@ const getMyProfile = async (request, response, next) => {
   }
 };
 
-const deleteProfileByUser = async (request, response, next) => {
+// @route   DELETE api/profile
+// @desc    Delete user and profile
+// @access  Private
+const deleteProfileByUser = async (req, res, next) => {
   try {
-    console.log(request.user);
-    await Profile.findOneAndDelete({ user: request.user.Id });
-    await User.findOneAndDelete({ _id: request.user.Id });
-    response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+    console.log(req.user);
+    await Profile.findOneAndDelete({ user: req.user.Id });
+    await User.findOneAndDelete({ _id: req.user.Id });
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
       msg: 'Removed successfully.',
     });
   } catch (error) {

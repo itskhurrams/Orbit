@@ -1,8 +1,8 @@
 const User = require('../models/user');
 
-const getAuthenticatedUsers = async (request, response, next) => {
-  response.json({
-    user: await User.findById(request.user.Id).select('-passcode'),
+const getAuthenticatedUsers = async (req, res, next) => {
+  res.json({
+    user: await User.findById(req.user.Id).select('-passcode'),
   });
 };
 exports.getAuthenticatedUsers = getAuthenticatedUsers;

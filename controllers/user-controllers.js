@@ -6,17 +6,23 @@ const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const environment = require('../config/environment');
 
-const getUsers = async (request, response, next) => {
-  response.json({ users: await User.find() });
+// @route   GET api/users
+// @desc    Get All user
+// @access  Public
+const getUsers = async (req, res, next) => {
+  res.json({ users: await User.find() });
 };
-const signUp = async (request, response, next) => {
-  const result = validationResult(request);
+// @route   POST api/users/signup
+// @desc    signup user
+// @access  Public
+const signUp = async (req, res, next) => {
+  const result = validationResult(req);
   if (!result.isEmpty()) {
-    return response
+    return res
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
-  const { firstName, lastName, title, email, passcode } = request.body;
+  const { firstName, lastName, title, email, passcode } = req.body;
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -68,7 +74,7 @@ const signUp = async (request, response, next) => {
             )
           );
         }
-        response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+        res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
           user: createdUser.toObject({ getters: true }),
           token: token,
         });
@@ -82,12 +88,16 @@ const signUp = async (request, response, next) => {
       )
     );
   }
-  // response
+  // res
   //   .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED)
   //   .json({ user: createdUser.toObject({ getters: true }), token: userToken });
 };
-const logIn = async (request, response, next) => {
-  const result = validationResult(request);
+
+// @route   GET api/users/login
+// @desc    Login User / Returning JWT Token
+// @access  Public
+const logIn = async (req, res, next) => {
+  const result = validationResult(req);
   if (!result.isEmpty()) {
     // return next(
     //   new HttpError(
@@ -95,11 +105,11 @@ const logIn = async (request, response, next) => {
     //     CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
     //   )
     // );
-    return response
+    return res
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ errors: result.array() });
   }
-  const { email, passcode } = request.body;
+  const { email, passcode } = req.body;
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -130,7 +140,7 @@ const logIn = async (request, response, next) => {
             )
           );
         }
-        response.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
+        res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_201_CREATED).json({
           user: {
             id: existingUser.id,
             firstName: existingUser.firstName,
