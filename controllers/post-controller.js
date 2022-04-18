@@ -163,8 +163,39 @@ const likePost = async (req, res, next) => {
   }
 };
 
+// @route   POST api/posts/comments/:postId
+// @desc    Add comments to Post on basis of Post Id
+// @access  Private
+const commentPost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const userProfile = await Profile.findOne({
+      user: req.user.Id,
+    }).populate('user', ['firstName', 'lastName']);
+    const newComment = {
+      user: req.user.Id,
+      text: req.body.text,
+      name: userProfile.user.firstName + ' ' + userProfile.user.lastName,
+      avatar: userProfile.avatar,
+    };
+    post.comments.unshift(newComment);
+    await post.save();
+    res.status(CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK).json({
+      comments: post.comments,
+    });
+  } catch (error) {
+    return next(
+      new HttpError(
+        'Could not post your status.',
+        CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY
+      )
+    );
+  }
+};
+
 exports.createMyPost = createMyPost;
 exports.getPosts = getPosts;
 exports.getPostById = getPostById;
 exports.deletePostById = deletePostById;
 exports.likePost = likePost;
+exports.commentPost = commentPost;

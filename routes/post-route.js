@@ -33,4 +33,14 @@ router.delete('/:postId', postController.deletePostById);
 // @access  Private
 router.put('/like/:postId', authMiddleware, postController.likePost);
 
+// @route   POST api/posts/comments/:postId
+// @desc    Add comments to Post on basis of Post Id
+// @access  Private
+
+router.post(
+  '/comment/:postId',
+  [authMiddleware, check('text', 'Text is required.').not().isEmpty()],
+  postController.commentPost
+);
+
 module.exports = router;
