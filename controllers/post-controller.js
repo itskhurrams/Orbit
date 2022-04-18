@@ -138,7 +138,7 @@ const likePost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.postId);
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
+      post.likes.filter((like) => like.user.toString() === req.user.Id).length >
       0
     ) {
       return next(
