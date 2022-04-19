@@ -1,10 +1,9 @@
-import { Fragment } from 'react';
 import './App.css';
 
 const App = () => (
-  <Fragment>
+  <div>
     <h1>Client App</h1>
-  </Fragment>
+  </div>
 );
 
 export default App;
