@@ -1,8 +1,8 @@
-import './App.css';
+import './assets/styles/index.css';
 
 const App = () => (
   <div>
-    <h1>Client App</h1>
+    <h1 className='text-3xl font-bold underline'>Client App</h1>
   </div>
 );
 
