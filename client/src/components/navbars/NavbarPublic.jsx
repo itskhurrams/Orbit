@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
+// import logo from '../../assets/images/logo.png';
 
 const NavbarPublic = (props) => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -34,41 +34,44 @@ const NavbarPublic = (props) => {
             <li className='flex items-center'> </li>
             <li className='flex items-center'>
               <a
-                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold'
+                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs font-bold'
                 href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdemos.creative-tim.com%2Fnotus-react%2F%23%2F'
               >
-                <i className='text-blueGray-400 fab fa-facebook text-lg leading-lg ' />
+                {/* <i className='text-blueGray-400 fab fa-facebook text-lg leading-lg ' /> */}
+                Sign Up as Company
                 <span className='lg:hidden inline-block ml-2'>Share</span>
               </a>
             </li>
 
             <li className='flex items-center'>
               <a
-                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold'
+                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs font-bold'
                 href='https://google.com'
               >
-                <i className='text-blueGray-400 fab fa-twitter text-lg leading-lg ' />
+                {/* <i className='text-blueGray-400 fab fa-twitter text-lg leading-lg ' /> */}
+                Sign Up as Reviewer
                 <span className='lg:hidden inline-block ml-2'>Tweet</span>
               </a>
             </li>
 
             <li className='flex items-center'>
               <a
-                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold'
+                className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs font-bold'
                 href='https://github.com/creativetimofficial/notus-react?ref=nr-index-navbar'
               >
-                <i className='text-blueGray-400 fab fa-github text-lg leading-lg ' />
+                {/* <i className='text-blueGray-400 fab fa-github text-lg leading-lg ' /> */}
+                Sign In
                 <span className='lg:hidden inline-block ml-2'>Star</span>
               </a>
             </li>
-            <li className='flex items-center'>
+            {/* <li className='flex items-center'>
               <button
                 className='bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150'
                 type='button'
               >
                 <i className='fas fa-arrow-alt-circle-down'></i> Download
               </button>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
