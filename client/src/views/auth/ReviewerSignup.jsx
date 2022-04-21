@@ -14,7 +14,7 @@ const ReviewerSignup = (props) => {
               <div className='rounded-t mb-0 px-6 py-6'>
                 <div className='text-center mb-3'>
                   <h6 className='text-blueGray-500 text-sm font-bold'>
-                    Sign up with
+                    Sign up as reviewer with
                   </h6>
                 </div>
                 <div className='btn-wrapper text-center'>
