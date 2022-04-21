@@ -1,6 +1,7 @@
 import FooterDesktop from '../components/footers/FooterDesktop';
 import pattrenImage from '../assets/images/pattern_react.png';
 import NavbarHome from '../components/navbars/NavbarHome';
+import { NavLink } from 'react-router-dom';
 
 const Home = () => (
   <>
@@ -17,18 +18,18 @@ const Home = () => (
               sharing your experience with your employers.
             </p>
             <div className='mt-12'>
-              <a
-                href='/ReviewerSignup'
+              <NavLink
                 className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                to='/ReviewerSignup'
               >
                 Sign up as Reviewer
-              </a>
-              <a
-                href='/CompanySignup'
-                className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+              </NavLink>
+              <NavLink
+                className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                to='/CompanySignup'
               >
                 Sign up as Company
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>
