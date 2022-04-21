@@ -1,9 +1,23 @@
 // @flow
-import React from 'react';
+import React, { useState } from 'react';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 
-const ReviewerSignup = (props) => {
+const ReviewerSignup = () => {
+  const [formDate, setFormDate] = useState({
+    firstName: '',
+    lastName: '',
+    title: '',
+    email: '',
+    passcode: '',
+    location: {
+      address: '',
+      city: '',
+      state: '',
+      postcode: '',
+      country: '',
+    },
+  });
   return (
     <>
       <NavbarPublic />
@@ -38,26 +52,55 @@ const ReviewerSignup = (props) => {
                   <small>Or sign up with credentials</small>
                 </div>
                 <form>
-                  <div className='relative w-full mb-3'>
+                  <div className='flex flex-wrap mb-3'>
+                    <div className='w-full pr-4 pl-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        First Name *
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='First Name'
+                        required
+                      />
+                    </div>
+                    <div className='w-full pl-4 pr-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        Last Name *
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Last Name'
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className='relative w-full mb-3 '>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Name
+                      Title *
                     </label>
                     <input
-                      type='email'
+                      type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Name'
+                      placeholder='Title / Designation'
                     />
                   </div>
-
                   <div className='relative w-full mb-3'>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Email
+                      Email *
                     </label>
                     <input
                       type='email'
@@ -65,19 +108,91 @@ const ReviewerSignup = (props) => {
                       placeholder='Email'
                     />
                   </div>
-
                   <div className='relative w-full mb-3'>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Password
+                      Password *
                     </label>
                     <input
                       type='password'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Password'
                     />
+                  </div>
+                  <div className='relative w-full mb-3 '>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Address
+                    </label>
+                    <input
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Address'
+                    />
+                  </div>
+                  <div className='flex flex-wrap mb-3'>
+                    <div className='w-full pr-4 pl-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        Post code
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Post code'
+                        required
+                      />
+                    </div>
+                    <div className='w-full pl-4 pr-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        City
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='City'
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className='flex flex-wrap mb-3'>
+                    <div className='w-full pr-4 pl-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        State / Provice
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='State / Provice'
+                        required
+                      />
+                    </div>
+                    <div className='w-full pl-4 pr-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='grid-password'
+                      >
+                        Country
+                      </label>
+                      <input
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Country'
+                        required
+                      />
+                    </div>
                   </div>
 
                   <div>
@@ -99,7 +214,6 @@ const ReviewerSignup = (props) => {
                       </span>
                     </label>
                   </div>
-
                   <div className='text-center mt-6'>
                     <button
                       className='bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150'
@@ -108,6 +222,85 @@ const ReviewerSignup = (props) => {
                       Create Account
                     </button>
                   </div>
+                  {/* <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Full Name'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Title
+                    </label>
+                    <input
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Title / Designation'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Email
+                    </label>
+                    <input
+                      type='email'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Email'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Password
+                    </label>
+                    <input
+                      type='password'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Password'
+                    />
+                  </div>
+                  <div>
+                    <label className='inline-flex items-center cursor-pointer'>
+                      <input
+                        id='customCheckLogin'
+                        type='checkbox'
+                        className='form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150'
+                      />
+                      <span className='ml-2 text-sm font-semibold text-blueGray-600'>
+                        I agree with the{' '}
+                        <a
+                          href='#pablo'
+                          className='text-lightBlue-500'
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          Privacy Policy
+                        </a>
+                      </span>
+                    </label>
+                  </div>
+                  <div className='text-center mt-6'>
+                    <button
+                      className='bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150'
+                      type='button'
+                    >
+                      Create Account
+                    </button>
+                  </div> */}
                 </form>
               </div>
             </div>
