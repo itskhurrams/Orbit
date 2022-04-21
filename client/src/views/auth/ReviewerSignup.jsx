@@ -1,10 +1,13 @@
 // @flow
 import React from 'react';
+import FooterDesktop from '../../components/footers/FooterDesktop';
+import NavbarPublic from '../../components/navbars/NavbarPublic';
 
 const ReviewerSignup = (props) => {
   return (
     <>
-      <div className='container mx-auto px-4 h-full'>
+      <NavbarPublic />
+      <div className='mx-auto px-4 h-full mt-24 md:mt-16 mb-24 md:mb-16'>
         <div className='flex content-center items-center justify-center h-full'>
           <div className='w-full lg:w-6/12 px-4'>
             <div className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0'>
@@ -113,6 +116,7 @@ const ReviewerSignup = (props) => {
           </div>
         </div>
       </div>
+      <FooterDesktop />
     </>
   );
 };
