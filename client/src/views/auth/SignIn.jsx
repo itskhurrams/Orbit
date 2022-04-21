@@ -23,15 +23,13 @@ const SignIn = (props) => {
                     className='bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150'
                     type='button'
                   >
-                    <img alt='...' className='w-5 mr-1' src='' />
-                    Github
+                    <i className='fab fa-facebook-square text-5xl'></i>
                   </button>
                   <button
                     className='bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150'
                     type='button'
                   >
-                    <img alt='...' className='w-5 mr-1' src='' />
-                    Google
+                    <i className='fa-brands fa-google text-5xl'></i>
                   </button>
                 </div>
                 <hr className='mt-6 border-b-1 border-blueGray-300' />
@@ -99,12 +97,16 @@ const SignIn = (props) => {
                   onClick={(e) => e.preventDefault()}
                   className='text-blueGray-200'
                 >
-                  <small>Forgot password?</small>
+                  <small className='ml-2 text-sm font-semibold text-blueGray-600'>
+                    Forgot password?
+                  </small>
                 </a>
               </div>
               <div className='w-1/2 text-right'>
                 <Link to='/auth/register' className='text-blueGray-200'>
-                  <small>Create new account</small>
+                  <small className='ml-2 text-sm font-semibold text-blueGray-600'>
+                    Create new account
+                  </small>
                 </Link>
               </div>
             </div>
