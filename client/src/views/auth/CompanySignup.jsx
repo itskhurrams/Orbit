@@ -35,7 +35,7 @@ const CompanySignup = (props) => {
               </div>
               <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
                 <div className='text-blueGray-400 text-center mb-3 font-bold'>
-                  <small>Or sign up with credentials</small>
+                  <p>Or sign up with credentials</p>
                 </div>
                 <form>
                   <div className='relative w-full mb-3'>
@@ -43,12 +43,12 @@ const CompanySignup = (props) => {
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Name
+                      Company Name *
                     </label>
                     <input
                       type='email'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Name'
+                      placeholder='Company Name'
                     />
                   </div>
 
@@ -57,12 +57,12 @@ const CompanySignup = (props) => {
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Email
+                      Location
                     </label>
                     <input
-                      type='email'
+                      type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Email'
+                      placeholder='Location'
                     />
                   </div>
 
@@ -71,12 +71,51 @@ const CompanySignup = (props) => {
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
                       htmlFor='grid-password'
                     >
-                      Password
+                      Contact Name *
                     </label>
                     <input
-                      type='password'
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Contact Name'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Contact Email *
+                    </label>
+                    <input
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Contact Email'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Password *
+                    </label>
+                    <input
+                      type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Password'
+                    />
+                  </div>
+                  <div className='relative w-full mb-3'>
+                    <label
+                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                      htmlFor='grid-password'
+                    >
+                      Confirm Password *
+                    </label>
+                    <input
+                      type='text'
+                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      placeholder='Confirm Password'
                     />
                   </div>
 
