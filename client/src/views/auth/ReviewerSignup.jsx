@@ -13,14 +13,36 @@ const ReviewerSignup = () => {
     passcode: '',
     confirmPasscode: '',
     isCompany: false,
-    location: {
-      address: '',
-      city: '',
-      state: '',
-      postcode: '',
-      country: '',
-    },
+    location: '',
+    iAgree: false,
+    // location: {
+    //   address: '',
+    //   city: '',
+    //   state: '',
+    //   postcode: '',
+    //   country: '',
+    // },
   });
+  const {
+    firstName,
+    lastName,
+    title,
+    email,
+    passcode,
+    confirmPasscode,
+    location,
+    iAgree,
+  } = formData;
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (passcode !== confirmPasscode) {
+      console.log('Password does not match.');
+    } else {
+      console.log(formData);
+    }
+  };
   return (
     <>
       <NavbarPublic />
@@ -54,7 +76,7 @@ const ReviewerSignup = () => {
                 <div className='text-blueGray-400 text-center mb-3 font-bold'>
                   <p>Or sign up with credentials</p>
                 </div>
-                <form>
+                <form className='form' onSubmit={(e) => onSubmit(e)}>
                   <div className='flex flex-wrap mb-3'>
                     <div className='w-full pr-4 pl-0 flex-1'>
                       <label
@@ -68,6 +90,8 @@ const ReviewerSignup = () => {
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='First Name'
+                        value={firstName}
+                        onChange={(e) => onChange(e)}
                         required
                       />
                     </div>
@@ -83,6 +107,8 @@ const ReviewerSignup = () => {
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Last Name'
+                        value={lastName}
+                        onChange={(e) => onChange(e)}
                         required
                       />
                     </div>
@@ -99,6 +125,9 @@ const ReviewerSignup = () => {
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Title / Designation'
+                      value={title}
+                      onChange={(e) => onChange(e)}
+                      required
                     />
                   </div>
                   <div className='relative w-full mb-3'>
@@ -113,6 +142,9 @@ const ReviewerSignup = () => {
                       type='email'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Email'
+                      value={email}
+                      onChange={(e) => onChange(e)}
+                      required
                     />
                     <small>
                       This site uses Gravatar so if you want a profile image,
@@ -133,6 +165,8 @@ const ReviewerSignup = () => {
                         minLength='6'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Password'
+                        value={passcode}
+                        onChange={(e) => onChange(e)}
                         required
                       />
                     </div>
@@ -146,9 +180,11 @@ const ReviewerSignup = () => {
                       <input
                         name='confirmPasscode'
                         type='password'
+                        minLength='6'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Confirm Password'
-                        minLength='6'
+                        value={confirmPasscode}
+                        onChange={(e) => onChange(e)}
                         required
                       />
                     </div>
@@ -165,13 +201,17 @@ const ReviewerSignup = () => {
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Location'
+                      value={location}
+                      onChange={(e) => onChange(e)}
                     />
                   </div>
                   <div>
                     <label className='inline-flex items-center cursor-pointer'>
                       <input
-                        id='customCheckLogin'
+                        name='iAgree'
                         type='checkbox'
+                        value={iAgree}
+                        onChange={(e) => onChange(e)}
                         className='form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150'
                       />
                       <span className='ml-2 text-sm font-semibold text-blueGray-600'>
@@ -189,7 +229,7 @@ const ReviewerSignup = () => {
                   <div className='text-center mt-6'>
                     <button
                       className='bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150'
-                      type='button'
+                      type='submit'
                     >
                       Create Account
                     </button>
