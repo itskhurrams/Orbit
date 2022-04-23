@@ -4,12 +4,15 @@ import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 
 const ReviewerSignup = () => {
-  const [formDate, setFormDate] = useState({
+  const [formData, setFormData] = useState({
+    companyName: '',
     firstName: '',
     lastName: '',
     title: '',
     email: '',
     passcode: '',
+    confirmPasscode: '',
+    isCompany: false,
     location: {
       address: '',
       city: '',
@@ -56,11 +59,12 @@ const ReviewerSignup = () => {
                     <div className='w-full pr-4 pl-0 flex-1'>
                       <label
                         className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                        htmlFor='grid-password'
+                        htmlFor='firstName'
                       >
                         First Name *
                       </label>
                       <input
+                        name='firstName'
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='First Name'
@@ -70,11 +74,12 @@ const ReviewerSignup = () => {
                     <div className='w-full pl-4 pr-0 flex-1'>
                       <label
                         className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                        htmlFor='grid-password'
+                        htmlFor='lastName'
                       >
                         Last Name *
                       </label>
                       <input
+                        name='lastName'
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Last Name'
@@ -85,11 +90,12 @@ const ReviewerSignup = () => {
                   <div className='relative w-full mb-3 '>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
+                      htmlFor='title'
                     >
                       Title *
                     </label>
                     <input
+                      name='title'
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Title / Designation'
@@ -98,26 +104,33 @@ const ReviewerSignup = () => {
                   <div className='relative w-full mb-3'>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
+                      htmlFor='email'
                     >
                       Email *
                     </label>
                     <input
+                      name='email'
                       type='email'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Email'
                     />
+                    <small>
+                      This site uses Gravatar so if you want a profile image,
+                      use a Gravatar email.
+                    </small>
                   </div>
                   <div className='flex flex-wrap mb-3'>
                     <div className='w-full pr-4 pl-0 flex-1'>
                       <label
                         className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                        htmlFor='grid-password'
+                        htmlFor='passcode'
                       >
                         Password *
                       </label>
                       <input
+                        name='passcode'
                         type='password'
+                        minLength='6'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Password'
                         required
@@ -126,14 +139,16 @@ const ReviewerSignup = () => {
                     <div className='w-full pl-4 pr-0 flex-1'>
                       <label
                         className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                        htmlFor='grid-password'
+                        htmlFor='confirmPasscode'
                       >
                         Confirm Password *
                       </label>
                       <input
+                        name='confirmPasscode'
                         type='password'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Confirm Password'
+                        minLength='6'
                         required
                       />
                     </div>
@@ -141,11 +156,12 @@ const ReviewerSignup = () => {
                   <div className='relative w-full mb-3 '>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
+                      htmlFor='location'
                     >
                       Location
                     </label>
                     <input
+                      name='location'
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Location'

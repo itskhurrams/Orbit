@@ -1,9 +1,26 @@
 // @flow
-import React from 'react';
+import React, { useState } from 'react';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 
-const CompanySignup = (props) => {
+const CompanySignup = () => {
+  const [formData, setFormData] = useState({
+    companyName: '',
+    firstName: '',
+    lastName: '',
+    title: '',
+    email: '',
+    passcode: '',
+    confirmPasscode: '',
+    isCompany: true,
+    location: {
+      address: '',
+      city: '',
+      state: '',
+      postcode: '',
+      country: '',
+    },
+  });
   return (
     <>
       <NavbarPublic />
@@ -66,59 +83,104 @@ const CompanySignup = (props) => {
                     />
                   </div>
 
-                  <div className='relative w-full mb-3'>
+                  <div className='flex flex-wrap mb-3'>
+                    <div className='w-full pr-4 pl-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='firstName'
+                      >
+                        Contact First Name *
+                      </label>
+                      <input
+                        name='firstName'
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='First Name'
+                        required
+                      />
+                    </div>
+                    <div className='w-full pl-4 pr-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='lastName'
+                      >
+                        Contact Last Name *
+                      </label>
+                      <input
+                        name='lastName'
+                        type='text'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Last Name'
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className='relative w-full mb-3 '>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
+                      htmlFor='title'
                     >
-                      Contact Name *
+                      Title *
                     </label>
                     <input
+                      name='title'
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Contact Name'
+                      placeholder='Title / Designation'
                     />
                   </div>
                   <div className='relative w-full mb-3'>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
+                      htmlFor='email'
                     >
-                      Contact Email *
+                      Email *
                     </label>
                     <input
-                      type='text'
+                      name='email'
+                      type='email'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Contact Email'
+                      placeholder='Email'
                     />
+                    <small>
+                      This site uses Gravatar so if you want a profile image,
+                      use a Gravatar email.
+                    </small>
                   </div>
-                  <div className='relative w-full mb-3'>
-                    <label
-                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Password *
-                    </label>
-                    <input
-                      type='text'
-                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Password'
-                    />
+                  <div className='flex flex-wrap mb-3'>
+                    <div className='w-full pr-4 pl-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='passcode'
+                      >
+                        Password *
+                      </label>
+                      <input
+                        name='passcode'
+                        type='password'
+                        minLength='6'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Password'
+                        required
+                      />
+                    </div>
+                    <div className='w-full pl-4 pr-0 flex-1'>
+                      <label
+                        className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
+                        htmlFor='confirmPasscode'
+                      >
+                        Confirm Password *
+                      </label>
+                      <input
+                        name='confirmPasscode'
+                        type='password'
+                        minLength='6'
+                        className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                        placeholder='Confirm Password'
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className='relative w-full mb-3'>
-                    <label
-                      className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
-                      htmlFor='grid-password'
-                    >
-                      Confirm Password *
-                    </label>
-                    <input
-                      type='text'
-                      className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                      placeholder='Confirm Password'
-                    />
-                  </div>
-
                   <div>
                     <label className='inline-flex items-center cursor-pointer'>
                       <input
@@ -138,7 +200,6 @@ const CompanySignup = (props) => {
                       </span>
                     </label>
                   </div>
-
                   <div className='text-center mt-6'>
                     <button
                       className='bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150'
