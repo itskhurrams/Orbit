@@ -1,5 +1,6 @@
 // @flow
 import React, { useState } from 'react';
+import axios from 'axios';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 
@@ -31,16 +32,38 @@ const ReviewerSignup = () => {
     passcode,
     confirmPasscode,
     location,
+    isCompany,
     iAgree,
   } = formData;
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (passcode !== confirmPasscode) {
       console.log('Password does not match.');
     } else {
       console.log(formData);
+      const newUser = {
+        firstName,
+        lastName,
+        title,
+        email,
+        passcode,
+        location,
+        isCompany,
+      };
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          baseURL: 'http://localhost:5000',
+        };
+        const body = JSON.stringify(newUser);
+        const res = await axios.post('/api/users/signup', body, config);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
