@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
+const enviroment = require('.../../../config/environment');
 
 const ReviewerSignup = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ const ReviewerSignup = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          baseURL: 'http://localhost:5000',
+          baseURL: enviroment.API_ENDPOINT,
         };
         const body = JSON.stringify(newUser);
         const res = await axios.post('/api/users/signup', body, config);
