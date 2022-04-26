@@ -22,7 +22,8 @@ const signUp = async (req, res, next) => {
       .status(CONSTANTS.HTTP_STATUS_CODES.HTTP_422_UNPROCESSABLE_ENTITY)
       .json({ Errors: result.array() });
   }
-  const { firstName, lastName, title, email, passcode } = req.body;
+  const { firstName, lastName, title, email, passcode, isCompany, location } =
+    req.body;
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -52,6 +53,8 @@ const signUp = async (req, res, next) => {
     title,
     email,
     passcode: await bcrypt.hash(passcode, salt),
+    isCompany,
+    location,
   });
 
   try {
@@ -146,6 +149,7 @@ const logIn = async (req, res, next) => {
             firstName: existingUser.firstName,
             lastName: existingUser.lastName,
             email: existingUser.email,
+            location: existingUser.location,
             createdDate: existingUser.createdDate,
           },
           token: token,
