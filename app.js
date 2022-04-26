@@ -3,11 +3,12 @@ const cors = require('cors');
 const enviroment = require('./config/environment');
 const databaseConfig = require('./config/database-config');
 const middlewares = require('./middlewares/error-handlers');
+const CONSTANTS = require('./config/constants');
 
 const app = express();
 var corsOptions = {
   origin: enviroment.CLIENT_ORIGIN,
-  optionsSuccessStatus: 200, // For legacy browser support
+  optionsSuccessStatus: CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK, // For legacy browser support
 };
 
 app.use(cors(corsOptions));
