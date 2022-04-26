@@ -6,7 +6,7 @@ const middlewares = require('./middlewares/error-handlers');
 
 const app = express();
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: enviroment.CLIENT_ORIGIN,
   optionsSuccessStatus: 200, // For legacy browser support
 };
 

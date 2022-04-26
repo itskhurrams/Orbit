@@ -10,6 +10,7 @@ class Environment {
     this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD || 'db_password';
     this.DATABASE_URI = process.env.DATABASE_URI;
     this.JWT_SECRET = process.env.JWT_SECRET;
+    this.CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
   }
 }
 module.exports = new Environment();
