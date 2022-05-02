@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/Store';
 import Home from './views/Home';
 import './assets/styles/app.css';
 import ReviewerSignup from './views/auth/ReviewerSignup';
@@ -7,12 +9,14 @@ import SignIn from './views/auth/SignIn';
 const App = () => {
   return (
     <>
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/ReviewerSignup' element={<ReviewerSignup />} />
-        <Route path='/CompanySignup' element={<CompanySignup />} />
-        <Route path='/SignIn' element={<SignIn />} />
-      </Routes>
+      <Provider store={store}>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route path='/ReviewerSignup' element={<ReviewerSignup />} />
+          <Route path='/CompanySignup' element={<CompanySignup />} />
+          <Route path='/SignIn' element={<SignIn />} />
+        </Routes>
+      </Provider>
     </>
   );
 };
