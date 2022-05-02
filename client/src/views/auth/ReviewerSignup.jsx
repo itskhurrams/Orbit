@@ -54,15 +54,15 @@ const ReviewerSignup = () => {
       //   location,
       //   isCompany,
       // };
-      // try {
-      //   const config = {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     baseURL: 'http://localhost:5000',
-      //   };
-      //   const body = JSON.stringify(newUser);
-      //   const res = await axios.post('/api/users/signup', body, config);
+      try {
+        //   const config = {
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     baseURL: 'http://localhost:5000',
+        //   };
+        //   const body = JSON.stringify(newUser);
+        //   const res = await axios.post('/api/users/signup', body, config);
       } catch (error) {
         console.log(error);
       }
