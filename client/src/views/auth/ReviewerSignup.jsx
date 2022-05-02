@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
-const enviroment = require('.../../../config/environment');
 
 const ReviewerSignup = () => {
   const [formData, setFormData] = useState({
@@ -42,26 +41,28 @@ const ReviewerSignup = () => {
     e.preventDefault();
     if (passcode !== confirmPasscode) {
       console.log('Password does not match.');
+    } else if (!iAgree) {
+      console.log('You need to agree trems & conditions to proceed.');
     } else {
       console.log(formData);
-      const newUser = {
-        firstName,
-        lastName,
-        title,
-        email,
-        passcode,
-        location,
-        isCompany,
-      };
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          baseURL: enviroment.API_ENDPOINT,
-        };
-        const body = JSON.stringify(newUser);
-        const res = await axios.post('/api/users/signup', body, config);
+      // const newUser = {
+      //   firstName,
+      //   lastName,
+      //   title,
+      //   email,
+      //   passcode,
+      //   location,
+      //   isCompany,
+      // };
+      // try {
+      //   const config = {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     baseURL: 'http://localhost:5000',
+      //   };
+      //   const body = JSON.stringify(newUser);
+      //   const res = await axios.post('/api/users/signup', body, config);
       } catch (error) {
         console.log(error);
       }
