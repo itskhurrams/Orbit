@@ -1,8 +1,9 @@
 // @flow
 import React, { useState } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
+import { setAlert } from '../../actions/alert';
 
 const ReviewerSignup = () => {
   const [formData, setFormData] = useState({
@@ -270,4 +271,4 @@ const ReviewerSignup = () => {
   );
 };
 
-export default ReviewerSignup;
+export default connect()(ReviewerSignup);
