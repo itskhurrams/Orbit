@@ -6,7 +6,7 @@ const initialState = {};
 const middleWare = [thunk];
 
 const store = configureStore({
-  rootReducer,
+  reducer: rootReducer,
   initialState,
   middleWare,
 });

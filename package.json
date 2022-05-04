@@ -22,6 +22,7 @@
   "author": "khurram shahzad",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^7.1.0",
     "cors": "^2.8.5",
@@ -30,7 +31,8 @@
     "gravatar": "^1.8.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.8",
-    "mongoose-unique-validator": "^3.0.0"
+    "mongoose-unique-validator": "^3.0.0",
+    "react-redux": "^8.0.1"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",

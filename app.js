@@ -10,12 +10,10 @@ var corsOptions = {
   origin: enviroment.CLIENT_ORIGIN,
   optionsSuccessStatus: CONSTANTS.HTTP_STATUS_CODES.HTTP_200_OK, // For legacy browser support
 };
-
 app.use(cors(corsOptions));
 app.use(
   express.json({ extended: false, useNewUrlParser: true, useCreateIndex: true })
 );
-
 app.use('/api/users', require('./routes/user-routes'));
 app.use('/api/profile', require('./routes/profile-routes'));
 app.use('/api/post', require('./routes/post-route'));
