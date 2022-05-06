@@ -5,7 +5,7 @@ import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 import { setAlert } from '../../actions/alert';
 
-const ReviewerSignup = () => {
+const ReviewerSignup = (props) => {
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -41,9 +41,12 @@ const ReviewerSignup = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (passcode !== confirmPasscode) {
-      console.log('Password does not match.');
+      props.setAlert('Password does not match.', 'danger');
     } else if (!iAgree) {
-      console.log('You need to agree trems & conditions to proceed.');
+      props.setAlert(
+        'You need to agree trems & conditions to proceed.',
+        'danger'
+      );
     } else {
       console.log(formData);
       // const newUser = {
@@ -271,4 +274,4 @@ const ReviewerSignup = () => {
   );
 };
 
-export default connect()(ReviewerSignup);
+export default connect(null, setAlert)(ReviewerSignup);
