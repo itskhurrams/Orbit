@@ -6,7 +6,6 @@ import './assets/styles/app.css';
 import ReviewerSignup from './views/auth/ReviewerSignup';
 import CompanySignup from './views/auth/CompanySignup';
 import SignIn from './views/auth/SignIn';
-import Alert from './components/layouts/Alert';
 const App = () => {
   return (
     <>

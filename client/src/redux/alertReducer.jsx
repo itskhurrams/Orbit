@@ -1,4 +1,4 @@
-import { REMOVE_ALERT, SET_ALERT } from '../actions/actiontypes';
+import { REMOVE_ALERT, SET_ALERT } from './actionTypes';
 const initialState = [];
 const alert = (state = initialState, action) => {
   switch (action.type) {

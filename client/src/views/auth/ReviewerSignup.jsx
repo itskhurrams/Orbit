@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
-import { setAlert } from '../../actions/alert';
+import { setAlert } from '../../redux/alertAction';
 import PropTypes from 'prop-types';
 import Alert from '../../components/layouts/Alert';
+
 const ReviewerSignup = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     companyName: '',
