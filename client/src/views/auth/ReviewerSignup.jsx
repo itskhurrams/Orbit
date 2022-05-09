@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 import { setAlert } from '../../actions/alert';
-
+import PropTypes from 'prop-types';
+import Alert from '../../components/layouts/Alert';
 const ReviewerSignup = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     companyName: '',
@@ -33,9 +34,9 @@ const ReviewerSignup = ({ setAlert }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (passcode !== confirmPasscode) {
-      setAlert('Password does not match.', 'danger');
+      setAlert('Password does not match.', 'red');
     } else if (!iAgree) {
-      setAlert('You need to agree trems & conditions to proceed.', 'danger');
+      setAlert('You need to agree trems & conditions to proceed.', 'orange');
     } else {
       console.log(formData);
       // const newUser = {
@@ -89,6 +90,10 @@ const ReviewerSignup = ({ setAlert }) => {
                   </button>
                 </div>
                 <hr className='mt-6 border-b-1 border-blueGray-300' /> */}
+              </div>
+
+              <div className='relative w-full p-10'>
+                <Alert />
               </div>
               <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
                 {/* <div className='text-blueGray-400 text-center mb-3 font-bold'>
@@ -262,5 +267,7 @@ const ReviewerSignup = ({ setAlert }) => {
     </>
   );
 };
-
+ReviewerSignup.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
 export default connect(null, { setAlert })(ReviewerSignup);
