@@ -35,9 +35,13 @@ const ReviewerSignup = ({ setAlert }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (passcode !== confirmPasscode) {
-      setAlert('Password does not match.', 'red');
+      setAlert('Password does not match.', 'red', 3000);
     } else if (!iAgree) {
-      setAlert('You need to agree trems & conditions to proceed.', 'orange');
+      setAlert(
+        'You need to agree trems & conditions to proceed.',
+        'orange',
+        5000
+      );
     } else {
       console.log(formData);
       // const newUser = {
@@ -93,7 +97,7 @@ const ReviewerSignup = ({ setAlert }) => {
                 <hr className='mt-6 border-b-1 border-blueGray-300' /> */}
               </div>
 
-              <div className='relative w-full p-10'>
+              <div className='flex-auto px-4 lg:px-6 py-10 pt-0'>
                 <Alert />
               </div>
               <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
