@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 import { setAlert } from '../../redux/alertAction';
+import { signUp } from '../../redux/authAction';
 import PropTypes from 'prop-types';
 import Alert from '../../components/layouts/Alert';
 
-const ReviewerSignup = ({ setAlert }) => {
+const ReviewerSignup = ({ setAlert, signUp }) => {
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -34,6 +35,12 @@ const ReviewerSignup = ({ setAlert }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (firstName === '') setAlert('First Name is required.', 'red', 3000);
+    if (lastName === '') setAlert('Last Name is required.', 'red', 3000);
+    if (title === '') setAlert('Title is required.', 'red', 3000);
+    if (email === '') setAlert('Email Address is required.', 'red', 3000);
+    if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
+      setAlert('Enter valid Email Address.', 'red', 3000);
     if (passcode !== confirmPasscode) {
       setAlert('Password does not match.', 'red', 3000);
     } else if (!iAgree) {
@@ -44,27 +51,7 @@ const ReviewerSignup = ({ setAlert }) => {
       );
     } else {
       console.log(formData);
-      // const newUser = {
-      //   firstName,
-      //   lastName,
-      //   title,
-      //   email,
-      //   passcode,
-      //   location,
-      //   isCompany,
-      // };
-      try {
-        //   const config = {
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     baseURL: 'http://localhost:5000',
-        //   };
-        //   const body = JSON.stringify(newUser);
-        //   const res = await axios.post('/api/users/signup', body, config);
-      } catch (error) {
-        console.log(error);
-      }
+      // signUp(firstName, lastName, title, email, passcode, location, false);
     }
   };
   return (
@@ -120,7 +107,6 @@ const ReviewerSignup = ({ setAlert }) => {
                         placeholder='First Name'
                         value={firstName}
                         onChange={(e) => onChange(e)}
-                        required
                       />
                     </div>
                     <div className='w-full pl-4 pr-0 flex-1'>
@@ -137,7 +123,6 @@ const ReviewerSignup = ({ setAlert }) => {
                         placeholder='Last Name'
                         value={lastName}
                         onChange={(e) => onChange(e)}
-                        required
                       />
                     </div>
                   </div>
@@ -155,7 +140,6 @@ const ReviewerSignup = ({ setAlert }) => {
                       placeholder='Title / Designation'
                       value={title}
                       onChange={(e) => onChange(e)}
-                      required
                     />
                   </div>
                   <div className='relative w-full mb-3'>
@@ -167,12 +151,11 @@ const ReviewerSignup = ({ setAlert }) => {
                     </label>
                     <input
                       name='email'
-                      type='email'
+                      type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Email'
                       value={email}
                       onChange={(e) => onChange(e)}
-                      required
                     />
                     <small>
                       This site uses Gravatar so if you want a profile image,
@@ -195,7 +178,6 @@ const ReviewerSignup = ({ setAlert }) => {
                         placeholder='Password'
                         value={passcode}
                         onChange={(e) => onChange(e)}
-                        required
                       />
                     </div>
                     <div className='w-full pl-4 pr-0 flex-1'>
@@ -213,7 +195,6 @@ const ReviewerSignup = ({ setAlert }) => {
                         placeholder='Confirm Password'
                         value={confirmPasscode}
                         onChange={(e) => onChange(e)}
-                        required
                       />
                     </div>
                   </div>
@@ -274,5 +255,6 @@ const ReviewerSignup = ({ setAlert }) => {
 };
 ReviewerSignup.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
-export default connect(null, { setAlert })(ReviewerSignup);
+export default connect(null, { setAlert, signUp })(ReviewerSignup);
