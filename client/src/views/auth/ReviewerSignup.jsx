@@ -43,7 +43,8 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
       setAlert('Enter valid Email Address.', 'red', 3000);
     if (passcode !== confirmPasscode) {
       setAlert('Password does not match.', 'red', 3000);
-    } else if (!iAgree) {
+    }
+    if (!iAgree) {
       setAlert(
         'You need to agree trems & conditions to proceed.',
         'orange',
@@ -51,7 +52,7 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
       );
     } else {
       console.log(formData);
-      // signUp(firstName, lastName, title, email, passcode, location, false);
+      signUp(firstName, lastName, title, email, passcode, location, false);
     }
   };
   return (
