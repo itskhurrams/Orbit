@@ -51,7 +51,7 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
         5000
       );
     } else {
-      console.log(formData);
+      //console.log(formData);
       signUp(firstName, lastName, title, email, passcode, location, false);
     }
   };

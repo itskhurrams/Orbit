@@ -27,7 +27,7 @@ export const signUp =
       const res = await axios.post('/api/users/signup', body, config);
       console.log(res);
       dispatch(
-        setAlert('User Registerd Successfully. Please Login.', 'emerald')
+        setAlert('User Registerd Successfully. Please Login.', 'emerald', 50000)
       );
       dispatch({
         type: REGISTER_SUCCESS,
