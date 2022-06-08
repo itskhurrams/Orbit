@@ -37,12 +37,12 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
     e.preventDefault();
     if (firstName === '') setAlert('First Name is required.', 'red', 3000);
     if (lastName === '') setAlert('Last Name is required.', 'red', 3000);
-    if (title === '') setAlert('Title is required.', 'red', 3000);
-    if (email === '') setAlert('Email Address is required.', 'red', 3000);
+    if (title === '') setAlert('Title is required.', 'red', 4000);
+    if (email === '') setAlert('Email Address is required.', 'red', 5000);
     if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
-      setAlert('Enter valid Email Address.', 'red', 3000);
+      setAlert('Enter valid Email Address.', 'red', 5000);
     if (passcode !== confirmPasscode) {
-      setAlert('Password does not match.', 'red', 3000);
+      setAlert('Password does not match.', 'red', 5000);
     }
     if (!iAgree) {
       setAlert(
