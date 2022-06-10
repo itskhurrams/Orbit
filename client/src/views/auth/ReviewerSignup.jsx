@@ -1,11 +1,12 @@
 // @flow
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import FooterDesktop from '../../components/footers/FooterDesktop';
-import NavbarPublic from '../../components/navbars/NavbarPublic';
+import PropTypes from 'prop-types';
+
 import { setAlert } from '../../redux/alertAction';
 import { signUp } from '../../redux/authAction';
-import PropTypes from 'prop-types';
+import FooterDesktop from '../../components/footers/FooterDesktop';
+import NavbarPublic from '../../components/navbars/NavbarPublic';
 import Alert from '../../components/layouts/Alert';
 
 const ReviewerSignup = ({ setAlert, signUp }) => {
@@ -39,6 +40,7 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
     if (lastName === '') setAlert('Last Name is required.', 'red', 3000);
     if (title === '') setAlert('Title is required.', 'red', 4000);
     if (email === '') setAlert('Email Address is required.', 'red', 5000);
+    if (passcode === '') setAlert('Password is required.', 'red', 5000);
     if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
       setAlert('Enter valid Email Address.', 'red', 5000);
     if (passcode !== confirmPasscode) {
