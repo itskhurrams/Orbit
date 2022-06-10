@@ -9,7 +9,7 @@ import {
 import { setAlert } from './alertAction';
 
 export const loadUser = () => async (dispatch) => {
-  setAuthToken(localStorage.token);
+  if (localStorage.token) setAuthToken(localStorage.token);
   try {
     const config = {
       headers: {
