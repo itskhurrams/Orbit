@@ -9,9 +9,15 @@ import {
 import { setAlert } from './alertAction';
 
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) setAuthToken(localStorage.token);
+  setAuthToken(localStorage.token);
   try {
-    const res = await axios.get('/api/auth');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      baseURL: 'http://localhost:5000',
+    };
+    const res = await axios.get('/api/auth', config);
 
     dispatch({
       type: USER_LOADED,
