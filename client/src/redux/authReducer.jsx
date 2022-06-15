@@ -23,8 +23,6 @@ const auth = (state = initialState, action) => {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      console.log(action.payload);
-      console.log(localStorage);
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
