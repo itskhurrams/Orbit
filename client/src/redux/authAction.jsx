@@ -44,10 +44,9 @@ export const login = (email, passcode) => async (dispatch) => {
   });
   try {
     const res = await axios.post('/api/users/login', body, config);
-    // dispatch(setAlert('Login Successfully.', 'emerald', 50000));
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data.token,
+      payload: res.data,
     });
     dispatch(setAlert('Login Successfully.', 'emerald', 50000));
   } catch (error) {
@@ -88,7 +87,7 @@ export const signUp =
       );
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data.token,
+        payload: res.data,
       });
     } catch (error) {
       // const errors = error.response.data.errors;

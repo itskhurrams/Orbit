@@ -13,8 +13,6 @@ const initialState = {
   user: null,
 };
 const auth = (state = initialState, action) => {
-  console.log('KHURRAM');
-  console.log(action);
   switch (action.type) {
     case USER_LOADED:
       return {
@@ -27,7 +25,7 @@ const auth = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       console.log(action.payload);
       console.log(localStorage);
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         ...action.payload,
