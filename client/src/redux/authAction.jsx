@@ -5,6 +5,7 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_SUCCESS,
 } from './actionTypes';
 import { setAlert } from './alertAction';
 
@@ -26,7 +27,6 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: AUTH_ERROR,
-      payload: error.response.data,
     });
   }
 };
@@ -44,11 +44,12 @@ export const login = (email, passcode) => async (dispatch) => {
   });
   try {
     const res = await axios.post('/api/users/login', body, config);
-    dispatch(setAlert('Login Successfully.', 'emerald', 50000));
+    // dispatch(setAlert('Login Successfully.', 'emerald', 50000));
     dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
+      type: LOGIN_SUCCESS,
+      payload: res.data.token,
     });
+    dispatch(setAlert('Login Successfully.', 'emerald', 50000));
   } catch (error) {
     // const errors = error.response.data.errors;
     if (error.response.data) {
@@ -56,7 +57,7 @@ export const login = (email, passcode) => async (dispatch) => {
       dispatch(setAlert(error.response.data, 'red'));
     }
     dispatch({
-      type: REGISTER_FAIL,
+      type: AUTH_ERROR,
     });
   }
 };
@@ -87,7 +88,7 @@ export const signUp =
       );
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data,
+        payload: res.data.token,
       });
     } catch (error) {
       // const errors = error.response.data.errors;

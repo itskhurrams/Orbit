@@ -20,14 +20,20 @@ const SignIn = ({ setAlert, login }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (email === '') setAlert('Email Address is required.', 'red', 3000);
-    if (passcode === '') setAlert('Password is required.', 'red', 5000);
-    if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-      setAlert('Enter valid Email Address.', 'red', 5000);
-      return;
-    } else {
-      login(email, passcode);
+    let isValid = true;
+    if (email === '') {
+      isValid = false;
+      setAlert('Email Address is required.', 'red', 3000);
     }
+    if (passcode === '') {
+      isValid = false;
+      setAlert('Password is required.', 'red', 5000);
+    }
+    if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      isValid = false;
+      setAlert('Enter valid Email Address.', 'red', 5000);
+    }
+    if (isValid) login(email, passcode);
   };
   return (
     <>
