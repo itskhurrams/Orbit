@@ -1,9 +1,16 @@
 // @flow
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
+
+import { setAlert } from '../../redux/alertAction';
+import { signUp } from '../../redux/authAction';
+import Alert from '../../components/layouts/Alert';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 
-const CompanySignup = () => {
+const CompanySignup = ({ setAlert, signUp, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -12,15 +19,50 @@ const CompanySignup = () => {
     email: '',
     passcode: '',
     confirmPasscode: '',
-    isCompany: true,
-    location: {
-      address: '',
-      city: '',
-      state: '',
-      postcode: '',
-      country: '',
-    },
+    isCompany: false,
+    location: '',
+    iAgree: false,
   });
+  const {
+    companyName,
+    firstName,
+    lastName,
+    title,
+    email,
+    passcode,
+    confirmPasscode,
+    location,
+    iAgree,
+  } = formData;
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (companyName === '') setAlert('Company Name is required.', 'red', 3000);
+    if (firstName === '') setAlert('First Name is required.', 'red', 3000);
+    if (lastName === '') setAlert('Last Name is required.', 'red', 3000);
+    if (title === '') setAlert('Title is required.', 'red', 4000);
+    if (email === '') setAlert('Email Address is required.', 'red', 5000);
+    if (passcode === '') setAlert('Password is required.', 'red', 5000);
+    if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
+      setAlert('Enter valid Email Address.', 'red', 5000);
+    if (passcode !== confirmPasscode) {
+      setAlert('Password does not match.', 'red', 5000);
+    }
+    if (!iAgree) {
+      setAlert(
+        'You need to agree trems & conditions to proceed.',
+        'orange',
+        5000
+      );
+    } else {
+      signUp(firstName, lastName, title, email, passcode, location, true);
+    }
+  };
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
+
   return (
     <>
       <NavbarPublic />
@@ -50,11 +92,14 @@ const CompanySignup = () => {
                 </div>
                 <hr className='mt-6 border-b-1 border-blueGray-300' /> */}
               </div>
+              <div className='flex-auto px-4 lg:px-6 py-10 pt-0'>
+                <Alert />
+              </div>
               <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
                 {/* <div className='text-blueGray-400 text-center mb-3 font-bold'>
                   <p>Or sign up with credentials</p>
                 </div> */}
-                <form>
+                <form className='form' onSubmit={(e) => onSubmit(e)}>
                   <div className='relative w-full mb-3'>
                     <label
                       className='block uppercase text-blueGray-600 text-xs font-bold mb-2'
@@ -63,9 +108,12 @@ const CompanySignup = () => {
                       Company Name *
                     </label>
                     <input
-                      type='email'
+                      name='companyName'
+                      type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Company Name'
+                      value={companyName}
+                      onChange={(e) => onChange(e)}
                     />
                   </div>
 
@@ -77,9 +125,12 @@ const CompanySignup = () => {
                       Location
                     </label>
                     <input
+                      name='location'
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Location'
+                      value={location}
+                      onChange={(e) => onChange(e)}
                     />
                   </div>
 
@@ -96,7 +147,8 @@ const CompanySignup = () => {
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='First Name'
-                        required
+                        value={firstName}
+                        onChange={(e) => onChange(e)}
                       />
                     </div>
                     <div className='w-full pl-4 pr-0 flex-1'>
@@ -111,7 +163,8 @@ const CompanySignup = () => {
                         type='text'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Last Name'
-                        required
+                        value={lastName}
+                        onChange={(e) => onChange(e)}
                       />
                     </div>
                   </div>
@@ -127,6 +180,8 @@ const CompanySignup = () => {
                       type='text'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Title / Designation'
+                      value={title}
+                      onChange={(e) => onChange(e)}
                     />
                   </div>
                   <div className='relative w-full mb-3'>
@@ -141,6 +196,8 @@ const CompanySignup = () => {
                       type='email'
                       className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                       placeholder='Email'
+                      value={email}
+                      onChange={(e) => onChange(e)}
                     />
                     <small>
                       This site uses Gravatar so if you want a profile image,
@@ -161,7 +218,8 @@ const CompanySignup = () => {
                         minLength='6'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Password'
-                        required
+                        value={passcode}
+                        onChange={(e) => onChange(e)}
                       />
                     </div>
                     <div className='w-full pl-4 pr-0 flex-1'>
@@ -177,15 +235,18 @@ const CompanySignup = () => {
                         minLength='6'
                         className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                         placeholder='Confirm Password'
-                        required
+                        value={confirmPasscode}
+                        onChange={(e) => onChange(e)}
                       />
                     </div>
                   </div>
                   <div>
                     <label className='inline-flex items-center cursor-pointer'>
                       <input
-                        id='customCheckLogin'
+                        name='iAgree'
                         type='checkbox'
+                        value={iAgree}
+                        onChange={(e) => onChange(e)}
                         className='form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150'
                       />
                       <span className='ml-2 text-sm font-semibold text-blueGray-600'>
@@ -203,7 +264,7 @@ const CompanySignup = () => {
                   <div className='text-center mt-6'>
                     <button
                       className='bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150'
-                      type='button'
+                      type='submit'
                     >
                       Create Account
                     </button>
@@ -218,5 +279,12 @@ const CompanySignup = () => {
     </>
   );
 };
-
-export default CompanySignup;
+CompanySignup.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { setAlert, signUp })(CompanySignup);

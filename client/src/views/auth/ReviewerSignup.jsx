@@ -2,14 +2,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
 
 import { setAlert } from '../../redux/alertAction';
 import { signUp } from '../../redux/authAction';
+import Alert from '../../components/layouts/Alert';
 import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
-import Alert from '../../components/layouts/Alert';
 
-const ReviewerSignup = ({ setAlert, signUp }) => {
+const ReviewerSignup = ({ setAlert, signUp, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     companyName: '',
     firstName: '',
@@ -57,6 +58,9 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
       signUp(firstName, lastName, title, email, passcode, location, false);
     }
   };
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
   return (
     <>
       <NavbarPublic />
@@ -259,5 +263,9 @@ const ReviewerSignup = ({ setAlert, signUp }) => {
 ReviewerSignup.propTypes = {
   setAlert: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-export default connect(null, { setAlert, signUp })(ReviewerSignup);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { setAlert, signUp })(ReviewerSignup);

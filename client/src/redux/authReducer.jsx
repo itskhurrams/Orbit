@@ -37,7 +37,7 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true,
+        isAuthenticated: false,
         loading: false,
       };
     default:

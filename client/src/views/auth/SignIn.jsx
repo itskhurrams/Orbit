@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import { setAlert } from '../../redux/alertAction';
 import { login } from '../../redux/authAction';
@@ -10,7 +10,7 @@ import FooterDesktop from '../../components/footers/FooterDesktop';
 import NavbarPublic from '../../components/navbars/NavbarPublic';
 import Alert from '../../components/layouts/Alert';
 
-const SignIn = ({ setAlert, login }) => {
+const SignIn = ({ setAlert, login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     passcode: '',
@@ -35,6 +35,9 @@ const SignIn = ({ setAlert, login }) => {
     }
     if (isValid) login(email, passcode);
   };
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
   return (
     <>
       <NavbarPublic />
@@ -161,5 +164,9 @@ const SignIn = ({ setAlert, login }) => {
 SignIn.propTypes = {
   setAlert: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-export default connect(null, { setAlert, login })(SignIn);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { setAlert, login })(SignIn);
