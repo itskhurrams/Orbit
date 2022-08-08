@@ -49,7 +49,7 @@ export const login = (email, passcode) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    dispatch(setAlert('Login Successfully.', 'emerald', 50000));
+    dispatch(setAlert('Login Successfully.', 'emerald', 2000));
   } catch (error) {
     // const errors = error.response.data.errors;
     if (error.response.data) {
