@@ -19,7 +19,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         </NavLink> */}
         <a
           onClick={logout}
-          href='/'
+          href='#!'
           className='hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs font-bold'
         >
           {' '}

@@ -11,6 +11,7 @@ import { loadUser } from './redux/authAction';
 import setAuthToken from './helpers/setAuthToken';
 import Dashboard from './views/dashboard/Dashboard';
 import Navbar from './components/navbars/Navbar';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 if (localStorage.token) setAuthToken(localStorage.token);
 
@@ -27,7 +28,9 @@ const App = () => {
           <Route path='/ReviewerSignup' element={<ReviewerSignup />} />
           <Route path='/CompanySignup' element={<CompanySignup />} />
           <Route path='/SignIn' element={<SignIn />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route exact path='/' element={<PrivateRoute />}>
+            <Route exact path='/dashboard' element={<Dashboard />} />
+          </Route>
         </Routes>
       </Provider>
     </>
