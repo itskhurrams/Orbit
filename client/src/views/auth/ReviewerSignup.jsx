@@ -8,7 +8,7 @@ import { setAlert } from '../../redux/alertAction';
 import { signUp } from '../../redux/authAction';
 import Alert from '../../components/layouts/Alert';
 import FooterDesktop from '../../components/footers/FooterDesktop';
-import NavbarPublic from '../../components/navbars/NavbarPublic';
+import Navbar from '../../components/navbars/NavbarPublic';
 
 const ReviewerSignup = ({ setAlert, signUp, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -63,7 +63,7 @@ const ReviewerSignup = ({ setAlert, signUp, isAuthenticated }) => {
   }
   return (
     <>
-      <NavbarPublic />
+      <Navbar />
       <div className='mx-auto px-4 h-full mt-24 md:mt-16 mb-24 md:mb-16'>
         <div className='flex content-center items-center justify-center h-full'>
           <div className='w-full lg:w-6/12 px-4'>

@@ -6,6 +6,7 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
+  LOGOUT,
 } from './actionTypes';
 import { setAlert } from './alertAction';
 
@@ -100,3 +101,10 @@ export const signUp =
       });
     }
   };
+
+//logout
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
+};
