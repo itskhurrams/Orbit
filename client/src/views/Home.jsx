@@ -1,11 +1,11 @@
 import FooterDesktop from '../components/footers/FooterDesktop';
 import pattrenImage from '../assets/images/pattern_react.png';
-import NavbarHome from '../components/navbars/NavbarHome';
+import Navbar from '../components/navbars/Navbar';
 import { NavLink } from 'react-router-dom';
 
 const Home = () => (
   <>
-    <NavbarHome fixed />
+    <Navbar fixed />
     <section className='header relative pt-16 items-center flex h-screen max-h-860-px'>
       <div className='container mx-auto items-center flex flex-wrap mt-24 md:mt-16 mb-24 md:mb-16'>
         <div className='w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4'>
