@@ -9,6 +9,8 @@ import CompanySignup from './views/auth/CompanySignup';
 import SignIn from './views/auth/SignIn';
 import { loadUser } from './redux/authAction';
 import setAuthToken from './helpers/setAuthToken';
+import Dashboard from './views/dashboard/Dashboard';
+import Navbar from './components/navbars/Navbar';
 
 if (localStorage.token) setAuthToken(localStorage.token);
 
@@ -19,11 +21,13 @@ const App = () => {
   return (
     <>
       <Provider store={store}>
+        <Navbar />
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/ReviewerSignup' element={<ReviewerSignup />} />
           <Route path='/CompanySignup' element={<CompanySignup />} />
           <Route path='/SignIn' element={<SignIn />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </Provider>
     </>

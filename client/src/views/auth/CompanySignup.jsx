@@ -65,7 +65,6 @@ const CompanySignup = ({ setAlert, signUp, isAuthenticated }) => {
 
   return (
     <>
-      <Navbar />
       <div className='mx-auto px-4 h-full mt-24 md:mt-16 mb-24 md:mb-16'>
         <div className='flex content-center items-center justify-center h-full'>
           <div className='w-full lg:w-6/12 px-4'>
